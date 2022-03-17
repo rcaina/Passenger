@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'view/navigation.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MaterialApp(
+    title: 'Passenger',
+    home: Navigation(),
+    theme: ThemeData(
+      primarySwatch: Colors.blue,
+    ),
+    debugShowCheckedModeBanner: false,
+  ));
 }
 
 class MyApp extends StatelessWidget {
