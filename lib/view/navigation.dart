@@ -7,15 +7,17 @@ import 'notifications.dart';
 
 /// This is the stateful widget that the main application instantiates.
 class Navigation extends StatefulWidget {
-  const Navigation({Key? key}) : super(key: key);
+  const Navigation({Key? key, this.initialSelectedIndex = 0}) : super(key: key);
+  final int initialSelectedIndex;
 
   @override
-  State<Navigation> createState() => _NavigationState();
+  State<Navigation> createState() =>
+      _NavigationState(this.initialSelectedIndex);
 }
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _NavigationState extends State<Navigation> {
-  int _selectedIndex = 0;
+  int _selectedIndex;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
@@ -24,6 +26,8 @@ class _NavigationState extends State<Navigation> {
     Notifications(),
     Account(),
   ];
+
+  _NavigationState(this._selectedIndex);
 
   void _onItemTapped(int index) {
     setState(() {
@@ -65,8 +69,8 @@ class _NavigationState extends State<Navigation> {
         unselectedItemColor: Colors.black,
         type: BottomNavigationBarType.fixed,
         onTap: _onItemTapped,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
       ),
     );
   }
