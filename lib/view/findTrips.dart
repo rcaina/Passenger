@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:passenger/view/tripDetails.dart';
+// import 'package:passenger/view/findTripFilter.dart';
 
 class FindTrips extends StatefulWidget {
   const FindTrips({Key? key}) : super(key: key);
@@ -12,6 +14,17 @@ class _FindTripsState extends State<FindTrips> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Find Trips"),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.filter_alt_sharp),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const TripDetails()),
+              );
+            },
+          ),
+        ],
       ),
       body: Center(
         child: Column(
