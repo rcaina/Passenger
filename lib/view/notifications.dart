@@ -14,15 +14,42 @@ class _NotificationsState extends State<Notifications> {
         title: const Text("Notifications"),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text(
-              'Notifications',
-            ),
-          ],
+        child: ListView(
+          children:[
+            notificationCard(context)
+          ]
         ),
       ),
+    );
+  }
+
+  Widget notificationCard(BuildContext context) {
+    return Card(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          ListTile(
+            leading: CircleAvatar(
+              backgroundImage: AssetImage("assets/images/mark.png"),
+              radius: 20.0,
+            ),
+            title: RichText(
+              text: TextSpan(
+                // Note: Styles for TextSpans must be explicitly defined.
+                // Child text spans will inherit styles from parent
+                style: const TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.black,
+                ),
+                children: <TextSpan>[
+                  TextSpan(text: 'Andrew Smith', style: const TextStyle(fontWeight: FontWeight.bold)),
+                  TextSpan(text: ' has confirmed your request to ride with them.'),
+                ],
+              ),
+            )
+          ),
+        ],
+      )
     );
   }
 }
