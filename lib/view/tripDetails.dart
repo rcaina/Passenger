@@ -49,7 +49,7 @@ class _TripDetailsState extends State<TripDetails> {
               child:
                 ListView(
                   children: <Widget>[
-                    inputText("Trip"),
+                    toandfrom("hello"),
                     inputText("Driver"),
                     inputDateTime("Departure Date/Time"),
                     inputDateTime("Arrival Date/Time"),
@@ -109,6 +109,30 @@ class _TripDetailsState extends State<TripDetails> {
     );
   }
 }
+
+Widget toandfrom(String label) {
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: <Widget>[
+      Container(
+        padding: EdgeInsets.fromLTRB(15, 15, 0, 30),
+        child: Text(
+          "Location"
+        ),
+      ),
+      Container(
+        padding: EdgeInsets.fromLTRB(15, 15, 0, 30),
+        child: Icon(Icons.arrow_right_alt_sharp),
+      ),
+      Container(
+        padding: EdgeInsets.fromLTRB(15, 15, 0, 30),
+        child: Text(
+          "Location"
+        ),
+      ),
+    ],
+  );
+} 
 
 Widget _buildGoogleMap() {
   final LatLng _center = const LatLng(45.521563, -122.677433);
