@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:passenger/view/createTrip.dart';
+import 'package:passenger/view/tripcard.dart';
 
 class MyTrips extends StatefulWidget {
   const MyTrips({Key? key}) : super(key: key);
@@ -29,9 +30,7 @@ class _MyTripsState extends State<MyTrips> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const <Widget>[
-            Text(
-              'My Trips',
-            ),
+            const TripCard(),
           ],
         ),
       ),

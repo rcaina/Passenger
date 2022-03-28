@@ -49,7 +49,7 @@ class _TripDetailsState extends State<TripDetails> {
               child:
                 ListView(
                   children: <Widget>[
-                    toandfrom("hello"),
+                    trip("hello"),
                     inputText("Driver"),
                     inputDateTime("Departure Date/Time"),
                     inputDateTime("Arrival Date/Time"),
@@ -110,7 +110,7 @@ class _TripDetailsState extends State<TripDetails> {
   }
 }
 
-Widget toandfrom(String label) {
+Widget trip(String label) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
