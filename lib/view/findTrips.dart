@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:passenger/view/tripDetails.dart';
+import 'package:passenger/globals.dart' as globals;
 // import 'package:passenger/view/findTripFilter.dart';
 
 class FindTrips extends StatefulWidget {
@@ -27,15 +28,13 @@ class _FindTripsState extends State<FindTrips> {
         ],
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text(
-              'Find Trips',
-            ),
-          ],
-        ),
-      ),
+          // child: ListView.builder(
+          //     itemCount: globals.accountData.length,
+          //     itemBuilder: (context, index) {
+          //       return institutionCard(globals.accountData[index]);
+          //     },
+          //   ),,
+          ),
     );
   }
 }
