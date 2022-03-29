@@ -26,13 +26,15 @@ class _NotificationsState extends State<Notifications> {
   }
 
   Widget notificationCard(dynamic notification) {
+    final userIndex = globals.users.indexWhere((element) => element["userId"] == notification["userId"]);
+    dynamic user = globals.users.elementAt(userIndex);
     return Card(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           ListTile(
             leading: CircleAvatar(
-              backgroundImage: AssetImage("assets/images/mark.png"),
+              backgroundImage: AssetImage(user["image"]),
               radius: 20.0,
             ),
             title: RichText(
@@ -44,7 +46,7 @@ class _NotificationsState extends State<Notifications> {
                   color: Colors.black,
                 ),
                 children: <TextSpan>[
-                  TextSpan(text: notification["user-name"], style: const TextStyle(fontWeight: FontWeight.bold)),
+                  TextSpan(text: user["name"], style: const TextStyle(fontWeight: FontWeight.bold)),
                   TextSpan(text: " "),
                   TextSpan(text: notification["message"]),
                 ],
