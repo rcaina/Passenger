@@ -179,19 +179,32 @@ class _TripDetailsState extends State<TripDetails> {
 
   Widget trip(String start, String destination) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Container(
           padding: EdgeInsets.fromLTRB(15, 15, 0, 30),
-          child: Text(start),
+          child: Text(
+            start,
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 20,
+            ),
+          ),
         ),
         Container(
           padding: EdgeInsets.fromLTRB(15, 15, 0, 30),
-          child: Icon(Icons.arrow_right_alt_sharp),
+          child: Icon(
+            Icons.arrow_right_alt_sharp,
+            color: Colors.green.shade400,
+            size: 35,
+          ),
         ),
         Container(
           padding: EdgeInsets.fromLTRB(15, 15, 0, 30),
-          child: Text(destination),
+          child: Text(
+            destination,
+            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+          ),
         ),
       ],
     );

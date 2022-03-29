@@ -190,4 +190,121 @@ class _MyTripsState extends State<MyTrips> {
             ))
         : Container();
   }
+
+  Widget TripCard1(trip) {
+    return Center(
+      child: Card(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Expanded(
+                child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage:
+                          NetworkImage('https://i.redd.it/v0caqchbtn741.jpg'),
+                    ),
+                    title: Text(
+                      '${trip["driver"]}',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.blue,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    subtitle: Text('Driver'),
+                    trailing: statusButton(
+                        globals.users[userId]["name"], '${trip["driver"]}')),
+              ),
+            ]),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: Text(
+                      '${trip["startLocation"]}',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    subtitle: Text(
+                      '${trip["departureDateTime"]}'.toString(),
+                      style: TextStyle(
+                        fontSize: 10.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ListTile(
+                    title: Icon(Icons.arrow_forward_rounded),
+                    contentPadding: EdgeInsets.all(-15),
+                  ),
+                ),
+                Expanded(
+                  child: ListTile(
+                    title: Text(
+                      '${trip["destination"]}',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    subtitle: Text(
+                      '${trip["departureDateTime"]}',
+                      style: TextStyle(
+                        fontSize: 10.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    contentPadding: EdgeInsets.all(0),
+                  ),
+                ),
+                Expanded(
+                  child: ListTile(
+                    title: Text(
+                      'Seats Available',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    subtitle: Text(
+                      '${trip["availableSeats"]}',
+                      style: TextStyle(
+                        fontSize: 10.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    contentPadding: EdgeInsets.all(0),
+                  ),
+                ),
+                Expanded(
+                  child: ListTile(
+                    title: Text(
+                      'Cost',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    subtitle: Text(
+                      '${trip["passengerCost"]}',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    contentPadding: EdgeInsets.all(0),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
