@@ -53,6 +53,28 @@ class _NotificationsState extends State<Notifications> {
               ),
             )
           ),
+          Row(
+            children: [
+              Text("")
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  Text(notification["from-location"]),
+                  Text(notification["from-date"]),
+                ],
+              ),
+              Column(
+                children: [
+                  Text(notification["to-location"]),
+                  Text(notification["to-date"]),
+                ],
+              )
+            ],
+          ),
         ],
       )
     );
