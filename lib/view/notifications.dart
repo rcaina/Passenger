@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:passenger/globals.dart' as globals;
 
 class Notifications extends StatefulWidget {
   const Notifications({Key? key}) : super(key: key);
@@ -14,16 +15,17 @@ class _NotificationsState extends State<Notifications> {
         title: const Text("Notifications"),
       ),
       body: Center(
-        child: ListView(
-          children:[
-            notificationCard(context)
-          ]
+        child: ListView.builder(
+          itemCount: globals.notifications.length,
+          itemBuilder: (context, index) {
+            return notificationCard(globals.notifications[index]);
+          },
         ),
       ),
     );
   }
 
-  Widget notificationCard(BuildContext context) {
+  Widget notificationCard(dynamic notification) {
     return Card(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -42,8 +44,9 @@ class _NotificationsState extends State<Notifications> {
                   color: Colors.black,
                 ),
                 children: <TextSpan>[
-                  TextSpan(text: 'Andrew Smith', style: const TextStyle(fontWeight: FontWeight.bold)),
-                  TextSpan(text: ' has confirmed your request to ride with them.'),
+                  TextSpan(text: notification["user-name"], style: const TextStyle(fontWeight: FontWeight.bold)),
+                  TextSpan(text: " "),
+                  TextSpan(text: notification["message"]),
                 ],
               ),
             )
