@@ -4,12 +4,15 @@ import 'package:passenger/globals.dart' as globals;
 // import 'package:passenger/view/tripcard.dart';
 
 class MyTrips extends StatefulWidget {
-  const MyTrips({Key? key}) : super(key: key);
+  const MyTrips({Key? key, this.userId = 0}) : super(key: key);
+  final int userId;
   @override
-  _MyTripsState createState() => _MyTripsState();
+  _MyTripsState createState() => _MyTripsState(this.userId);
 }
 
 class _MyTripsState extends State<MyTrips> {
+  int userId;
+  _MyTripsState(this.userId);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,53 +47,24 @@ class _MyTripsState extends State<MyTrips> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            // const ListTile(
-            //   leading: CircleAvatar(
-            //     backgroundImage:
-            //     NetworkImage('https://i.redd.it/v0caqchbtn741.jpg'),
-            //   ),
-            //   title: Text('Brian Stokes'),
-            //   subtitle: Text('Driver'),
-            // ),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Expanded(
                 child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage:
-                        NetworkImage('https://i.redd.it/v0caqchbtn741.jpg'),
-                  ),
-                  title: Text('Brian Stokes'),
-                  subtitle: Text('Driver'),
-                  trailing: ClipRRect(
-                    borderRadius: BorderRadius.circular(4),
-                    child: Stack(
-                      children: <Widget>[
-                        Positioned.fill(
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: <Color>[
-                                  Color(0xFF0D47A1),
-                                  Color(0xFF1976D2),
-                                  Color(0xFF42A5F5),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        TextButton(
-                          style: TextButton.styleFrom(
-                            padding: const EdgeInsets.all(16.0),
-                            primary: Colors.white,
-                            textStyle: const TextStyle(fontSize: 15),
-                          ),
-                          onPressed: () {},
-                          child: const Text('Approved'),
-                        ),
-                      ],
+                    leading: CircleAvatar(
+                      backgroundImage:
+                          NetworkImage('https://i.redd.it/v0caqchbtn741.jpg'),
                     ),
-                  ),
-                ),
+                    title: Text(
+                      '${trip["driver"]}',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.blue,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    subtitle: Text('Driver'),
+                    trailing: statusButton(
+                        globals.users[userId]["name"], '${trip["driver"]}')),
               ),
             ]),
             Row(
@@ -98,8 +72,20 @@ class _MyTripsState extends State<MyTrips> {
               children: [
                 Expanded(
                   child: ListTile(
-                    title: const Text('Start'),
-                    subtitle: const Text('Date'),
+                    title: Text(
+                      '${trip["startLocation"]}',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    subtitle: Text(
+                      '${trip["departureDateTime"]}'.toString(),
+                      style: TextStyle(
+                        fontSize: 10.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
                 Expanded(
@@ -110,22 +96,57 @@ class _MyTripsState extends State<MyTrips> {
                 ),
                 Expanded(
                   child: ListTile(
-                    title: const Text('Destination'),
-                    subtitle: const Text('Date'),
+                    title: Text(
+                      '${trip["destination"]}',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    subtitle: Text(
+                      '${trip["departureDateTime"]}',
+                      style: TextStyle(
+                        fontSize: 10.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                     contentPadding: EdgeInsets.all(0),
                   ),
                 ),
                 Expanded(
                   child: ListTile(
-                    title: const Text('Seats Available'),
-                    subtitle: const Text('Number'),
+                    title: Text(
+                      'Seats Available',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    subtitle: Text(
+                      '${trip["availableSeats"]}',
+                      style: TextStyle(
+                        fontSize: 10.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                     contentPadding: EdgeInsets.all(0),
                   ),
                 ),
                 Expanded(
                   child: ListTile(
-                    title: const Text('Cost'),
-                    subtitle: const Text('Money'),
+                    title: Text(
+                      'Cost',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    subtitle: Text(
+                      '${trip["passengerCost"]}',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                     contentPadding: EdgeInsets.all(0),
                   ),
                 ),
@@ -135,5 +156,38 @@ class _MyTripsState extends State<MyTrips> {
         ),
       ),
     );
+  }
+
+  Widget statusButton(user, driver) {
+    return user != driver
+        ? ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: Stack(
+              children: <Widget>[
+                Positioned.fill(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: <Color>[
+                          Color(0xFF0D47A1),
+                          Color(0xFF1976D2),
+                          Color(0xFF42A5F5),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.all(16.0),
+                    primary: Colors.white,
+                    textStyle: const TextStyle(fontSize: 15),
+                  ),
+                  onPressed: () {},
+                  child: const Text('Approved'),
+                ),
+              ],
+            ))
+        : Container();
   }
 }
