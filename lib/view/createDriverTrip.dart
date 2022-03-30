@@ -259,11 +259,11 @@ class _CreateDriverTripState extends State<CreateDriverTrip> {
           color: Colors.blue,
           onPressed: () {
             Map<String, dynamic> trip = {
-              'id': Uuid().v4(),
-              'driver': globals.currentUserId,
+              'driverUserId': globals.currentUserId,
               'startLocation': startLocationController.text,
               'destination': destinationController.text,
               'departureDateTime': departureDateTimeController.text,
+              'arivalDateTime': departureDateTimeController.text,
               'availableSeats': availableSeatsController.text,
               'passengerCost': passengerCostController.text,
               'passengers': []

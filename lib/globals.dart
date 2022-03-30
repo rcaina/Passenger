@@ -1,10 +1,10 @@
-int currentUserId = 0;
+String currentUserId = "0";
 
 //myTips = trips["driverUserId"] == currentUserId || tris["passenger"].contains("userId" == currentUserId)
 
 Map<String, dynamic> trips = {
   "0": {
-    "driverUserId": 0,
+    "driverUserId": "0",
     "startLocation": "BYU, Provo, UT",
     "destination": "",
     "departureDateTime": "",
@@ -39,8 +39,8 @@ Map<String, dynamic> users = {
 
 Map<String, dynamic> requests = {
   "0": {
-    "passengerId": 0,
-    "tripId": 0,
+    "passengerId": "0",
+    "tripId": "0",
     "passengerDestination": "Austin",
     "message": "Hello. Id like to join you.",
     "passengerContribution": 50.50,
@@ -50,7 +50,7 @@ Map<String, dynamic> requests = {
 
 Map<String, dynamic> requestResponse = {
   "0": {
-    "requestId": 0,
+    "requestId": "0",
     "addedToTrip": true,
     "read": false,
   }
