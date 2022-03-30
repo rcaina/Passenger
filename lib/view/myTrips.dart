@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:passenger/view/createTrip.dart';
+import 'package:passenger/view/tripDetails.dart';
 import 'package:passenger/globals.dart' as globals;
 // import 'package:passenger/view/tripcard.dart';
 
@@ -42,7 +43,21 @@ class _MyTripsState extends State<MyTrips> {
   }
 
   Widget TripCard(trip) {
-    return Center(
+    return GestureDetector(
+      onTap: () => {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => TripDetails(
+                    start: '${trip["startLocation"]}',
+                    destination: '${trip["destination"]}',
+                    driver: '${trip["driver"]}',
+                    departureInfo: '${trip["departureDateTime"]}',
+                    arrivalInfo: '${trip["arrivalDateTime"]}',
+                    seatsAvailable: '${trip["availableSeats"]}',
+                  )),
+        )
+      },
       child: Card(
         child: Column(
           mainAxisSize: MainAxisSize.min,

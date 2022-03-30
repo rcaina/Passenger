@@ -94,59 +94,16 @@ class _TripDetailsState extends State<TripDetails> {
               alignment: Alignment.center,
               child: ListView(
                 children: <Widget>[
-                  trip(this.start, this.destination),
+                  Container(
+                    // padding: EdgeInsets.fromLTRB(15, 15, 0, 30),
+                    child: trip(this.start, this.destination),
+                  ),
+                  // trip(this.start, this.destination),
                   inputText("Driver", this.driver),
                   inputText("Departure Date/Time", this.departureInfo),
                   inputText("Arrival Date/Time", this.arrivalInfo),
                   Text("Flexible Departure Date?"),
-                  DropdownButton<String>(
-                    items: <String>['Yes', 'No'].map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (_) {},
-                    style: TextStyle(color: Colors.blue, fontSize: 16),
-                    isExpanded: true,
-                  ),
-                  // Text("Are you willing to drive?"),
-                  // DropdownButton<String>(
-                  //   items: <String>['Yes', 'No'].map((String value) {
-                  //     return DropdownMenuItem<String>(
-                  //       value: value,
-                  //       child: Text(value),
-                  //     );
-                  //   }).toList(),
-                  //   onChanged: (_) {},
-                  //   style:TextStyle(color:Colors.blue, fontSize: 16),
-                  //   isExpanded: true,
-                  // ),
                   inputText("Seats Available", this.seatsAvailable),
-                  updateButton(),
-                  // DropdownButton<String>(
-                  //   items: <String>['1', '2', '3', '4', '5', '6']
-                  //       .map((String value) {
-                  //     return DropdownMenuItem<String>(
-                  //       value: value,
-                  //       child: Text(value),
-                  //     );
-                  //   }).toList(),
-                  //   onChanged: (_) {},
-                  //   style: TextStyle(color: Colors.blue, fontSize: 16),
-                  //   isExpanded: true,
-                  // ),
-                  // SizedBox(
-                  //   width: 200.0,
-                  //   height: 300.0,
-                  //   child: GoogleMap(
-                  //     mapType: MapType.normal,
-                  //     initialCameraPosition: CameraPosition(
-                  //       target: _center,
-                  //       zoom: 11.0,
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ),
             ),
@@ -195,7 +152,7 @@ class _TripDetailsState extends State<TripDetails> {
           padding: EdgeInsets.fromLTRB(15, 15, 0, 30),
           child: Icon(
             Icons.arrow_right_alt_sharp,
-            color: Colors.green.shade400,
+            color: Colors.blue.shade400,
             size: 35,
           ),
         ),
@@ -237,7 +194,7 @@ class _TripDetailsState extends State<TripDetails> {
           ? TextFormField(
               enabled: !edit,
               decoration: InputDecoration(labelText: label),
-              initialValue: info,
+              initialValue: (info == "null") ? "" : info,
             )
           : ListTile(
               title: Text(

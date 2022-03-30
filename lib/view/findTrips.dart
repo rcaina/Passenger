@@ -49,7 +49,7 @@ class _FindTripsState extends State<FindTrips> {
                     destination: '${trip["destination"]}',
                     driver: '${trip["driver"]}',
                     departureInfo: '${trip["departureDateTime"]}',
-                    arrivalInfo: '${trip["departureDateTime"]}',
+                    arrivalInfo: '${trip["arrivalDateTime"]}',
                     seatsAvailable: '${trip["availableSeats"]}',
                   )),
         )
