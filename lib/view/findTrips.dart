@@ -32,7 +32,8 @@ class _FindTripsState extends State<FindTrips> {
         child: ListView.builder(
           itemCount: globals.trips.length,
           itemBuilder: (context, index) {
-            return TripCard(globals.trips[index]);
+            String key = globals.trips.keys.elementAt(index);
+            return TripCard(globals.trips[key]);
           },
         ),
       ),
@@ -48,10 +49,11 @@ class _FindTripsState extends State<FindTrips> {
               builder: (context) => TripDetails(
                     start: '${trip["startLocation"]}',
                     destination: '${trip["destination"]}',
-                    driver: '${trip["driver"]}',
+                    driver: '${globals.users[trip["driverUserId"]]["name"]}',
                     departureInfo: '${trip["departureDateTime"]}',
-                    arrivalInfo: '${trip["departureDateTime"]}',
+                    arrivalInfo: '${trip["arrivalDateTime"]}',
                     seatsAvailable: '${trip["availableSeats"]}',
+                    passengers: trip["passengers"],
                   )),
         )
       },
@@ -115,7 +117,9 @@ class _FindTripsState extends State<FindTrips> {
                       ),
                     ),
                     subtitle: Text(
-                      '${trip["departureDateTime"]}',
+                      ('${trip["arrivalDateTime"]}' == "null")
+                          ? ""
+                          : '${trip["arrivalDateTime"]}',
                       style: TextStyle(
                         fontSize: 10.0,
                         fontWeight: FontWeight.w600,
@@ -167,38 +171,5 @@ class _FindTripsState extends State<FindTrips> {
         ),
       ),
     );
-  }
-
-  Widget statusButton(user, driver) {
-    return user != driver
-        ? ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: Stack(
-              children: <Widget>[
-                Positioned.fill(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: <Color>[
-                          Color(0xFF0D47A1),
-                          Color(0xFF1976D2),
-                          Color(0xFF42A5F5),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                TextButton(
-                  style: TextButton.styleFrom(
-                    padding: const EdgeInsets.all(16.0),
-                    primary: Colors.white,
-                    textStyle: const TextStyle(fontSize: 15),
-                  ),
-                  onPressed: () {},
-                  child: const Text('Request'),
-                ),
-              ],
-            ))
-        : Container();
   }
 }
