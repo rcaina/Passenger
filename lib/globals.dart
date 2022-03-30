@@ -34,7 +34,14 @@ Map<String, dynamic> users = {
     "phone": "123-456-7890",
     "about": "I am a junior at BYU studying Computer Science!",
     "interests": "I like to hike",
-  }
+  },
+  "2": {
+    "name": "Andrea Blake",
+    "image": "assets/images/andrea.jpg",
+    "phone": "801-904-1254",
+    "about": "I love Charlie Puth",
+    "interests": "Camping, Hiking"
+  },
 };
 
 Map<String, dynamic> requests = {
@@ -55,3 +62,25 @@ Map<String, dynamic> requestResponse = {
     "read": false,
   }
 };
+
+List<dynamic> notifications = [
+  {
+    "user-name": "Andrew Smith",
+    "userId": "1",
+    "message": "has confirmed your request to ride with them.",
+    "from-location": "Austin, TX",
+    "to-location": "BYU",
+    "from-date": "8/28/22",
+    "to-date": "8/29/22",
+  },
+  {
+    "user-name": "Andrea Blake",
+    "userId": "2",
+    "message": "has denied your request to ride with them.",
+    "from-location": "BYU",
+    "to-location": "Irving, TX",
+    "from-date": "10/30/22",
+    "to-date": "10/31/22",
+  }
+];
+
