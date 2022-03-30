@@ -58,7 +58,6 @@ class _TripDetailsState extends State<TripDetails> {
       this.userId);
 
   final _formKey = GlobalKey<FormState>();
-  final isDriver = true;
   final LatLng _center = const LatLng(45.521563, -122.677433);
   late GoogleMapController mapController;
   void _onMapCreated(GoogleMapController controller) {
@@ -72,11 +71,11 @@ class _TripDetailsState extends State<TripDetails> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Trip Details"),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.mode_edit),
-            onPressed: isDriver
-                ? () {
+        actions: this.driver == globals.users[globals.currentUserId]["name"]
+            ? <Widget>[
+                IconButton(
+                  icon: const Icon(Icons.mode_edit),
+                  onPressed: () {
                     if (edit) {
                       setState(() {
                         edit = false;
@@ -90,10 +89,10 @@ class _TripDetailsState extends State<TripDetails> {
                     //   context,
                     //   MaterialPageRoute(builder: (context) => FindTripFilter()),
                     // );
-                  }
-                : null,
-          ),
-        ],
+                  },
+                ),
+              ]
+            : null,
       ),
       body: Center(
         child: Form(
@@ -108,12 +107,12 @@ class _TripDetailsState extends State<TripDetails> {
                     // padding: EdgeInsets.fromLTRB(15, 15, 0, 30),
                     child: trip(this.start, this.destination),
                   ),
-                  // trip(this.start, this.destination),
                   inputText("Driver", this.driver),
                   inputText("Departure Date/Time", this.departureInfo),
                   inputText("Arrival Date/Time", this.arrivalInfo),
                   inputText("Seats Available", this.seatsAvailable),
-                  listPassengers("Passengers", this.passengers),
+                  inputText("Passengers", "- Luke Johnson"),
+                  updateButton(),
                 ],
               ),
             ),
@@ -200,17 +199,18 @@ class _TripDetailsState extends State<TripDetails> {
   Widget inputText(String label, String info) {
     return Padding(
       padding: EdgeInsets.only(bottom: 15),
-      child: globals.users[globals.currentUserId]["name"] != this.driver
+      child: globals.users[globals.currentUserId]["name"] == this.driver
           ? TextFormField(
               enabled: !edit,
               decoration: InputDecoration(labelText: label),
-              initialValue: (info == "null" || info == "") ? "" : info,
+              initialValue: (info == "null") ? "" : info,
             )
           : ListTile(
+              enabled: edit,
               title: Text(
                 label,
               ),
-              subtitle: Text(info),
+              subtitle: (info == "null") ? Text("") : Text(info),
               contentPadding: EdgeInsets.all(0),
             ),
     );
@@ -219,11 +219,20 @@ class _TripDetailsState extends State<TripDetails> {
   Widget listPassengers(String label, List<dynamic> passengers) {
     List<dynamic> passengerList = [];
     for (dynamic passenger in passengers) {
-      if ('${passenger["status"]}' == "approved") {
+      if (passenger["status"] == "requested") {
         passengerList.add(passenger);
       }
     }
-    return Padding(padding: EdgeInsets.only(bottom: 15), child: Text("hello"));
+    print(passengers);
+    return Padding(
+        padding: EdgeInsets.only(bottom: 15),
+        child: ListView.builder(
+            padding: const EdgeInsets.all(0),
+            itemCount: passengerList.length,
+            itemBuilder: (BuildContext context, int index) {
+              print(passengerList[index]);
+              return Text(passengerList[index]);
+            }));
   }
 
   Widget inputDateTime(String label) {

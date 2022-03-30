@@ -6,9 +6,9 @@ Map<String, dynamic> trips = {
   "0": {
     "driverUserId": "0",
     "startLocation": "BYU, Provo, UT",
-    "destination": "",
-    "departureDateTime": "",
-    "arrivalDateTime": "",
+    "destination": "San Diego, CA",
+    "departureDateTime": "2022-05-05 22:40",
+    "arrivalDateTime": "2022-05-05 08:05",
     "availableSeats": 0,
     "passengerCost": 10.1,
     "passengers": [

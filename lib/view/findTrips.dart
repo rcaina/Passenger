@@ -50,7 +50,7 @@ class _FindTripsState extends State<FindTrips> {
                     destination: '${trip["destination"]}',
                     driver: '${globals.users[trip["driverUserId"]]["name"]}',
                     departureInfo: '${trip["departureDateTime"]}',
-                    arrivalInfo: trip["arrivalDateTime"],
+                    arrivalInfo: '${trip["arrivalDateTime"]}',
                     seatsAvailable: '${trip["availableSeats"]}',
                     passengers: trip["passengers"],
                   )),
@@ -116,7 +116,9 @@ class _FindTripsState extends State<FindTrips> {
                       ),
                     ),
                     subtitle: Text(
-                      '${trip["departureDateTime"]}',
+                      ('${trip["arrivalDateTime"]}' == "null")
+                          ? ""
+                          : '${trip["arrivalDateTime"]}',
                       style: TextStyle(
                         fontSize: 10.0,
                         fontWeight: FontWeight.w600,

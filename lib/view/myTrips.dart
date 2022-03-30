@@ -54,9 +54,7 @@ class _MyTripsState extends State<MyTrips> {
                     destination: '${trip["destination"]}',
                     driver: '${globals.users[trip["driverUserId"]]["name"]}',
                     departureInfo: '${trip["departureDateTime"]}',
-                    arrivalInfo: ('${trip["arrivalDateTime"]}' == "null")
-                        ? "null"
-                        : '${trip["arrivalDateTime"]}',
+                    arrivalInfo: '${trip["arrivalDateTime"]}',
                     seatsAvailable: '${trip["availableSeats"]}',
                     passengers: trip["passengers"],
                   )),
@@ -182,7 +180,7 @@ class _MyTripsState extends State<MyTrips> {
   Widget statusButton(user, driver) {
     print(user);
     print(driver);
-    return user != driver
+    return user == driver
         ? ClipRRect(
             borderRadius: BorderRadius.circular(4),
             child: Stack(
@@ -278,7 +276,7 @@ class _MyTripsState extends State<MyTrips> {
                       ),
                     ),
                     subtitle: Text(
-                      '${trip["departureDateTime"]}',
+                      '${trip["arrivalDateTime"]}',
                       style: TextStyle(
                         fontSize: 10.0,
                         fontWeight: FontWeight.w600,
