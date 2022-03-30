@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:passenger/view/findTripFilter.dart';
 import 'package:passenger/view/tripDetails.dart';
 import 'package:passenger/globals.dart' as globals;
 // import 'package:passenger/view/findTripFilter.dart';
@@ -21,7 +22,7 @@ class _FindTripsState extends State<FindTrips> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const TripDetails()),
+                MaterialPageRoute(builder: (context) => const FindTripFilter()),
               );
             },
           ),
@@ -66,7 +67,7 @@ class _FindTripsState extends State<FindTrips> {
                         NetworkImage('https://i.redd.it/v0caqchbtn741.jpg'),
                   ),
                   title: Text(
-                    '${trip["driver"]}',
+                    '${globals.users[trip["driverUserId"]]["name"]}',
                     style: TextStyle(
                       fontSize: 20.0,
                       color: Colors.blue,
