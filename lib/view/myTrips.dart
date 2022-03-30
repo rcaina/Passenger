@@ -35,6 +35,8 @@ class _MyTripsState extends State<MyTrips> {
           itemCount: globals.trips.length,
           itemBuilder: (context, index) {
             String key = globals.trips.keys.elementAt(index);
+            print(globals.trips[key]);
+            //return Text("hey " + key);
             return TripCard(globals.trips[key]);
           },
         ),
@@ -43,6 +45,7 @@ class _MyTripsState extends State<MyTrips> {
   }
 
   Widget TripCard(trip) {
+    print(globals.users[trip["driverUserId"]]);
     return Center(
       child: Card(
         child: Column(
@@ -51,21 +54,23 @@ class _MyTripsState extends State<MyTrips> {
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Expanded(
                 child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage:
-                          NetworkImage('https://i.redd.it/v0caqchbtn741.jpg'),
+                  leading: CircleAvatar(
+                    backgroundImage:
+                        NetworkImage('https://i.redd.it/v0caqchbtn741.jpg'),
+                  ),
+                  title: Text(
+                    '${globals.users[trip["driverUserId"]]["name"]}',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.blue,
+                      fontWeight: FontWeight.w600,
                     ),
-                    title: Text(
-                      '${trip["driver"]}',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.blue,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    subtitle: Text('Driver'),
-                    trailing: statusButton(
-                        globals.users[userId]["name"], '${trip["driver"]}')),
+                  ),
+                  subtitle: Text('Driver'),
+                  // trailing: statusButton(
+                  //     globals.users[globals.currentUserId]["name"],
+                  //     '${globals.users[trip["driverUserId"]]["name"]}'),
+                ),
               ),
             ]),
             Row(
@@ -160,6 +165,8 @@ class _MyTripsState extends State<MyTrips> {
   }
 
   Widget statusButton(user, driver) {
+    print(user);
+    print(driver);
     return user != driver
         ? ClipRRect(
             borderRadius: BorderRadius.circular(4),
