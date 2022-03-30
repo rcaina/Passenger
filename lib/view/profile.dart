@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:passenger/globals.dart' as globals;
 
 class Profile extends StatefulWidget {
-  const Profile({Key? key, this.userId = 0}) : super(key: key);
+  const Profile({Key? key, this.userId = "0"}) : super(key: key);
 
-  final int userId;
+  final String userId;
 
   @override
   _ProfileState createState() => _ProfileState(this.userId);
 }
 
 class _ProfileState extends State<Profile> {
-  int userId;
+  String userId;
   _ProfileState(this.userId);
 
   @override
@@ -27,9 +27,8 @@ class _ProfileState extends State<Profile> {
             Padding(
               padding: EdgeInsets.all(20),
               child: CircleAvatar(
-                backgroundImage: AssetImage(
-                  globals.users[userId]["image"],
-                ),
+                backgroundImage: NetworkImage(
+                    "https://raw.githubusercontent.com/kyleokolowitz/Passenger/main/assets/images/mark.png?token=GHSAT0AAAAAABLRFB2BXTG7OJLDH75DSFRYYSD4FAQ"),
                 radius: 80.0,
               ),
             ),
