@@ -52,10 +52,10 @@ class _MyTripsState extends State<MyTrips> {
               builder: (context) => TripDetails(
                     start: '${trip["startLocation"]}',
                     destination: '${trip["destination"]}',
-                    driver: '${trip["driver"]}',
+                    driver: '${globals.users[trip["driverUserId"]]["name"]}',
                     departureInfo: '${trip["departureDateTime"]}',
                     arrivalInfo: '${trip["arrivalDateTime"]}',
-                    seatsAvailable: '${trip["availableSeats"]}',
+                    seatsAvailable: '${trip["passengers"]}',
                   )),
         )
       },
@@ -80,7 +80,8 @@ class _MyTripsState extends State<MyTrips> {
                     ),
                     subtitle: Text('Driver'),
                     trailing: statusButton(
-                        globals.users[userId]["name"], '${trip["driver"]}')),
+                        globals.users[globals.currentUserId]["name"],
+                        '${globals.users[trip["driverUserId"]]["name"]}')),
               ),
             ]),
             Row(
@@ -221,7 +222,7 @@ class _MyTripsState extends State<MyTrips> {
                           NetworkImage('https://i.redd.it/v0caqchbtn741.jpg'),
                     ),
                     title: Text(
-                      '${trip["driver"]}',
+                      '${globals.users[trip["driverUserId"]]["name"]}',
                       style: TextStyle(
                         fontSize: 20.0,
                         color: Colors.blue,
@@ -230,7 +231,8 @@ class _MyTripsState extends State<MyTrips> {
                     ),
                     subtitle: Text('Driver'),
                     trailing: statusButton(
-                        globals.users[userId]["name"], '${trip["driver"]}')),
+                        globals.users[globals.currentUserId]["name"],
+                        '${globals.users[trip["driverUserId"]]["name"]}')),
               ),
             ]),
             Row(

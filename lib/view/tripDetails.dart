@@ -13,6 +13,7 @@ class TripDetails extends StatefulWidget {
       this.departureInfo = "",
       this.arrivalInfo = "",
       this.seatsAvailable = "",
+      List<dynamic> this.passengers = const [],
       this.userId = 0})
       : super(key: key);
   final String start;
@@ -20,8 +21,8 @@ class TripDetails extends StatefulWidget {
   final String driver;
   final String departureInfo;
   final String arrivalInfo;
-  // final String flexibleDeparture;
   final String seatsAvailable;
+  final List<dynamic> passengers;
   final int userId;
 
   @override
@@ -32,6 +33,7 @@ class TripDetails extends StatefulWidget {
       this.departureInfo,
       this.arrivalInfo,
       this.seatsAvailable,
+      this.passengers,
       this.userId);
 }
 
@@ -42,10 +44,18 @@ class _TripDetailsState extends State<TripDetails> {
   String departureInfo;
   String arrivalInfo;
   String seatsAvailable;
+  List<dynamic> passengers;
   int userId;
 
-  _TripDetailsState(this.start, this.destination, this.driver,
-      this.departureInfo, this.arrivalInfo, this.seatsAvailable, this.userId);
+  _TripDetailsState(
+      this.start,
+      this.destination,
+      this.driver,
+      this.departureInfo,
+      this.arrivalInfo,
+      this.seatsAvailable,
+      this.passengers,
+      this.userId);
 
   final _formKey = GlobalKey<FormState>();
   final isDriver = true;
@@ -104,6 +114,7 @@ class _TripDetailsState extends State<TripDetails> {
                   inputText("Arrival Date/Time", this.arrivalInfo),
                   Text("Flexible Departure Date?"),
                   inputText("Seats Available", this.seatsAvailable),
+                  listPassengers("Passengers", this.passengers),
                 ],
               ),
             ),
@@ -205,6 +216,32 @@ class _TripDetailsState extends State<TripDetails> {
               ),
               contentPadding: EdgeInsets.all(0),
             ),
+    );
+  }
+
+  Widget listPassengers(String label, List<dynamic> passengers) {
+    List<dynamic> passengerList = [];
+    for (dynamic passenger in passengers) {
+      if ('${passenger["status"]}' == "approved") {
+        passengerList.add(passenger);
+      }
+    }
+    return Padding(
+      padding: EdgeInsets.only(bottom: 15),
+      child: ListView.builder(
+        // Let the ListView know how many items it needs to build.
+        itemCount: passengers.length,
+        // Provide a builder function. This is where the magic happens.
+        // Convert each item into a widget based on the type of item it is.
+        itemBuilder: (context, index) {
+          final item = passengers[index];
+
+          return ListTile(
+            title: item.buildTitle(context),
+            subtitle: item.buildSubtitle(context),
+          );
+        },
+      ),
     );
   }
 

@@ -47,7 +47,7 @@ class _FindTripsState extends State<FindTrips> {
               builder: (context) => TripDetails(
                     start: '${trip["startLocation"]}',
                     destination: '${trip["destination"]}',
-                    driver: '${trip["driver"]}',
+                    driver: '${globals.users[trip["driverUserId"]]["name"]}',
                     departureInfo: '${trip["departureDateTime"]}',
                     arrivalInfo: '${trip["arrivalDateTime"]}',
                     seatsAvailable: '${trip["availableSeats"]}',
@@ -66,7 +66,7 @@ class _FindTripsState extends State<FindTrips> {
                         NetworkImage('https://i.redd.it/v0caqchbtn741.jpg'),
                   ),
                   title: Text(
-                    '${trip["driver"]}',
+                    '${globals.users[trip["driverUserId"]]["name"]}',
                     style: TextStyle(
                       fontSize: 20.0,
                       color: Colors.blue,
@@ -166,38 +166,5 @@ class _FindTripsState extends State<FindTrips> {
         ),
       ),
     );
-  }
-
-  Widget statusButton(user, driver) {
-    return user != driver
-        ? ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: Stack(
-              children: <Widget>[
-                Positioned.fill(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: <Color>[
-                          Color(0xFF0D47A1),
-                          Color(0xFF1976D2),
-                          Color(0xFF42A5F5),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                TextButton(
-                  style: TextButton.styleFrom(
-                    padding: const EdgeInsets.all(16.0),
-                    primary: Colors.white,
-                    textStyle: const TextStyle(fontSize: 15),
-                  ),
-                  onPressed: () {},
-                  child: const Text('Request'),
-                ),
-              ],
-            ))
-        : Container();
   }
 }
