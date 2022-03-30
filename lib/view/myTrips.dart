@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:passenger/view/createTrip.dart';
+import 'package:passenger/view/tripDetails.dart';
 import 'package:passenger/globals.dart' as globals;
 // import 'package:passenger/view/tripcard.dart';
 
@@ -35,8 +36,6 @@ class _MyTripsState extends State<MyTrips> {
           itemCount: globals.trips.length,
           itemBuilder: (context, index) {
             String key = globals.trips.keys.elementAt(index);
-            print(globals.trips[key]);
-            //return Text("hey " + key);
             return TripCard(globals.trips[key]);
           },
         ),
@@ -45,8 +44,22 @@ class _MyTripsState extends State<MyTrips> {
   }
 
   Widget TripCard(trip) {
-    print(globals.users[trip["driverUserId"]]);
-    return Center(
+    return GestureDetector(
+      onTap: () => {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => TripDetails(
+                    start: '${trip["startLocation"]}',
+                    destination: '${trip["destination"]}',
+                    driver: '${globals.users[trip["driverUserId"]]["name"]}',
+                    departureInfo: '${trip["departureDateTime"]}',
+                    arrivalInfo: '${trip["arrivalDateTime"]}',
+                    seatsAvailable: '${trip["availableSeats"]}',
+                    passengers: trip["passengers"],
+                  )),
+        )
+      },
       child: Card(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -58,18 +71,16 @@ class _MyTripsState extends State<MyTrips> {
                     backgroundImage:
                         NetworkImage('https://i.redd.it/v0caqchbtn741.jpg'),
                   ),
-                  title: Text(
-                    '${globals.users[trip["driverUserId"]]["name"]}',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.blue,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  title: Text('${globals.users[trip["driverUserId"]]["name"]}',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.blue,
+                        fontWeight: FontWeight.w600,
+                      )),
                   subtitle: Text('Driver'),
                   // trailing: statusButton(
                   //     globals.users[globals.currentUserId]["name"],
-                  //     '${globals.users[trip["driverUserId"]]["name"]}'),
+                  //     '${globals.users[trip["driverUserId"]]["name"]}')
                 ),
               ),
             ]),
@@ -110,7 +121,9 @@ class _MyTripsState extends State<MyTrips> {
                       ),
                     ),
                     subtitle: Text(
-                      '${trip["departureDateTime"]}',
+                      ('${trip["arrivalDateTime"]}' == "null")
+                          ? ""
+                          : '${trip["arrivalDateTime"]}',
                       style: TextStyle(
                         fontSize: 10.0,
                         fontWeight: FontWeight.w600,
@@ -167,7 +180,7 @@ class _MyTripsState extends State<MyTrips> {
   Widget statusButton(user, driver) {
     print(user);
     print(driver);
-    return user != driver
+    return user == driver
         ? ClipRRect(
             borderRadius: BorderRadius.circular(4),
             child: Stack(
@@ -213,7 +226,7 @@ class _MyTripsState extends State<MyTrips> {
                           NetworkImage('https://i.redd.it/v0caqchbtn741.jpg'),
                     ),
                     title: Text(
-                      '${trip["driver"]}',
+                      '${globals.users[trip["driverUserId"]]["name"]}',
                       style: TextStyle(
                         fontSize: 20.0,
                         color: Colors.blue,
@@ -222,7 +235,8 @@ class _MyTripsState extends State<MyTrips> {
                     ),
                     subtitle: Text('Driver'),
                     trailing: statusButton(
-                        globals.users[userId]["name"], '${trip["driver"]}')),
+                        globals.users[globals.currentUserId]["name"],
+                        '${globals.users[trip["driverUserId"]]["name"]}')),
               ),
             ]),
             Row(
@@ -262,7 +276,7 @@ class _MyTripsState extends State<MyTrips> {
                       ),
                     ),
                     subtitle: Text(
-                      '${trip["departureDateTime"]}',
+                      '${trip["arrivalDateTime"]}',
                       style: TextStyle(
                         fontSize: 10.0,
                         fontWeight: FontWeight.w600,

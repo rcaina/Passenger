@@ -13,6 +13,7 @@ class TripDetails extends StatefulWidget {
       this.departureInfo = "",
       this.arrivalInfo = "",
       this.seatsAvailable = "",
+      this.passengers = const [],
       this.userId = 0})
       : super(key: key);
   final String start;
@@ -20,8 +21,8 @@ class TripDetails extends StatefulWidget {
   final String driver;
   final String departureInfo;
   final String arrivalInfo;
-  // final String flexibleDeparture;
   final String seatsAvailable;
+  final List<dynamic> passengers;
   final int userId;
 
   @override
@@ -32,6 +33,7 @@ class TripDetails extends StatefulWidget {
       this.departureInfo,
       this.arrivalInfo,
       this.seatsAvailable,
+      this.passengers,
       this.userId);
 }
 
@@ -42,13 +44,20 @@ class _TripDetailsState extends State<TripDetails> {
   String departureInfo;
   String arrivalInfo;
   String seatsAvailable;
+  List<dynamic> passengers;
   int userId;
 
-  _TripDetailsState(this.start, this.destination, this.driver,
-      this.departureInfo, this.arrivalInfo, this.seatsAvailable, this.userId);
+  _TripDetailsState(
+      this.start,
+      this.destination,
+      this.driver,
+      this.departureInfo,
+      this.arrivalInfo,
+      this.seatsAvailable,
+      this.passengers,
+      this.userId);
 
   final _formKey = GlobalKey<FormState>();
-  final isDriver = true;
   final LatLng _center = const LatLng(45.521563, -122.677433);
   late GoogleMapController mapController;
   void _onMapCreated(GoogleMapController controller) {
@@ -62,11 +71,11 @@ class _TripDetailsState extends State<TripDetails> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Trip Details"),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.mode_edit),
-            onPressed: isDriver
-                ? () {
+        actions: this.driver == globals.users[globals.currentUserId]["name"]
+            ? <Widget>[
+                IconButton(
+                  icon: const Icon(Icons.mode_edit),
+                  onPressed: () {
                     if (edit) {
                       setState(() {
                         edit = false;
@@ -80,10 +89,10 @@ class _TripDetailsState extends State<TripDetails> {
                     //   context,
                     //   MaterialPageRoute(builder: (context) => FindTripFilter()),
                     // );
-                  }
-                : null,
-          ),
-        ],
+                  },
+                ),
+              ]
+            : null,
       ),
       body: Center(
         child: Form(
@@ -94,59 +103,16 @@ class _TripDetailsState extends State<TripDetails> {
               alignment: Alignment.center,
               child: ListView(
                 children: <Widget>[
-                  trip(this.start, this.destination),
+                  Container(
+                    // padding: EdgeInsets.fromLTRB(15, 15, 0, 30),
+                    child: trip(this.start, this.destination),
+                  ),
                   inputText("Driver", this.driver),
                   inputText("Departure Date/Time", this.departureInfo),
                   inputText("Arrival Date/Time", this.arrivalInfo),
-                  Text("Flexible Departure Date?"),
-                  DropdownButton<String>(
-                    items: <String>['Yes', 'No'].map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (_) {},
-                    style: TextStyle(color: Colors.blue, fontSize: 16),
-                    isExpanded: true,
-                  ),
-                  // Text("Are you willing to drive?"),
-                  // DropdownButton<String>(
-                  //   items: <String>['Yes', 'No'].map((String value) {
-                  //     return DropdownMenuItem<String>(
-                  //       value: value,
-                  //       child: Text(value),
-                  //     );
-                  //   }).toList(),
-                  //   onChanged: (_) {},
-                  //   style:TextStyle(color:Colors.blue, fontSize: 16),
-                  //   isExpanded: true,
-                  // ),
                   inputText("Seats Available", this.seatsAvailable),
+                  inputText("Passengers", "- Luke Johnson"),
                   updateButton(),
-                  // DropdownButton<String>(
-                  //   items: <String>['1', '2', '3', '4', '5', '6']
-                  //       .map((String value) {
-                  //     return DropdownMenuItem<String>(
-                  //       value: value,
-                  //       child: Text(value),
-                  //     );
-                  //   }).toList(),
-                  //   onChanged: (_) {},
-                  //   style: TextStyle(color: Colors.blue, fontSize: 16),
-                  //   isExpanded: true,
-                  // ),
-                  // SizedBox(
-                  //   width: 200.0,
-                  //   height: 300.0,
-                  //   child: GoogleMap(
-                  //     mapType: MapType.normal,
-                  //     initialCameraPosition: CameraPosition(
-                  //       target: _center,
-                  //       zoom: 11.0,
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ),
             ),
@@ -195,7 +161,7 @@ class _TripDetailsState extends State<TripDetails> {
           padding: EdgeInsets.fromLTRB(15, 15, 0, 30),
           child: Icon(
             Icons.arrow_right_alt_sharp,
-            color: Colors.green.shade400,
+            color: Colors.blue.shade400,
             size: 35,
           ),
         ),
@@ -233,22 +199,40 @@ class _TripDetailsState extends State<TripDetails> {
   Widget inputText(String label, String info) {
     return Padding(
       padding: EdgeInsets.only(bottom: 15),
-      child: globals.users[userId]["name"] != this.driver
+      child: globals.users[globals.currentUserId]["name"] == this.driver
           ? TextFormField(
               enabled: !edit,
               decoration: InputDecoration(labelText: label),
-              initialValue: info,
+              initialValue: (info == "null") ? "" : info,
             )
           : ListTile(
+              enabled: edit,
               title: Text(
                 label,
               ),
-              subtitle: Text(
-                info,
-              ),
+              subtitle: (info == "null") ? Text("") : Text(info),
               contentPadding: EdgeInsets.all(0),
             ),
     );
+  }
+
+  Widget listPassengers(String label, List<dynamic> passengers) {
+    List<dynamic> passengerList = [];
+    for (dynamic passenger in passengers) {
+      if (passenger["status"] == "requested") {
+        passengerList.add(passenger);
+      }
+    }
+    print(passengers);
+    return Padding(
+        padding: EdgeInsets.only(bottom: 15),
+        child: ListView.builder(
+            padding: const EdgeInsets.all(0),
+            itemCount: passengerList.length,
+            itemBuilder: (BuildContext context, int index) {
+              print(passengerList[index]);
+              return Text(passengerList[index]);
+            }));
   }
 
   Widget inputDateTime(String label) {
