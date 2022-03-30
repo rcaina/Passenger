@@ -13,7 +13,7 @@ class TripDetails extends StatefulWidget {
       this.departureInfo = "",
       this.arrivalInfo = "",
       this.seatsAvailable = "",
-      List<dynamic> this.passengers = const [],
+      this.passengers = const [],
       this.userId = 0})
       : super(key: key);
   final String start;
@@ -112,7 +112,6 @@ class _TripDetailsState extends State<TripDetails> {
                   inputText("Driver", this.driver),
                   inputText("Departure Date/Time", this.departureInfo),
                   inputText("Arrival Date/Time", this.arrivalInfo),
-                  Text("Flexible Departure Date?"),
                   inputText("Seats Available", this.seatsAvailable),
                   listPassengers("Passengers", this.passengers),
                 ],
@@ -201,19 +200,17 @@ class _TripDetailsState extends State<TripDetails> {
   Widget inputText(String label, String info) {
     return Padding(
       padding: EdgeInsets.only(bottom: 15),
-      child: globals.users[userId]["name"] != this.driver
+      child: globals.users[globals.currentUserId]["name"] != this.driver
           ? TextFormField(
               enabled: !edit,
               decoration: InputDecoration(labelText: label),
-              initialValue: (info == "null") ? "" : info,
+              initialValue: (info == "null" || info == "") ? "" : info,
             )
           : ListTile(
               title: Text(
                 label,
               ),
-              subtitle: Text(
-                info,
-              ),
+              subtitle: Text(info),
               contentPadding: EdgeInsets.all(0),
             ),
     );
@@ -226,23 +223,7 @@ class _TripDetailsState extends State<TripDetails> {
         passengerList.add(passenger);
       }
     }
-    return Padding(
-      padding: EdgeInsets.only(bottom: 15),
-      child: ListView.builder(
-        // Let the ListView know how many items it needs to build.
-        itemCount: passengers.length,
-        // Provide a builder function. This is where the magic happens.
-        // Convert each item into a widget based on the type of item it is.
-        itemBuilder: (context, index) {
-          final item = passengers[index];
-
-          return ListTile(
-            title: item.buildTitle(context),
-            subtitle: item.buildSubtitle(context),
-          );
-        },
-      ),
-    );
+    return Padding(padding: EdgeInsets.only(bottom: 15), child: Text("hello"));
   }
 
   Widget inputDateTime(String label) {

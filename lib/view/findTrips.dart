@@ -31,7 +31,8 @@ class _FindTripsState extends State<FindTrips> {
         child: ListView.builder(
           itemCount: globals.trips.length,
           itemBuilder: (context, index) {
-            return TripCard(globals.trips[index]);
+            String key = globals.trips.keys.elementAt(index);
+            return TripCard(globals.trips[key]);
           },
         ),
       ),
@@ -49,8 +50,9 @@ class _FindTripsState extends State<FindTrips> {
                     destination: '${trip["destination"]}',
                     driver: '${globals.users[trip["driverUserId"]]["name"]}',
                     departureInfo: '${trip["departureDateTime"]}',
-                    arrivalInfo: '${trip["arrivalDateTime"]}',
+                    arrivalInfo: trip["arrivalDateTime"],
                     seatsAvailable: '${trip["availableSeats"]}',
+                    passengers: trip["passengers"],
                   )),
         )
       },
