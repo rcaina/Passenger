@@ -33,9 +33,10 @@ class _MyTripsState extends State<MyTrips> {
       ),
       body: Center(
         child: ListView.builder(
-          itemCount: globals.myTrips.length,
+          itemCount: globals.trips.length,
           itemBuilder: (context, index) {
-            return TripCard(globals.myTrips[index]);
+            String key = globals.trips.keys.elementAt(index);
+            return TripCard(globals.trips[key]);
           },
         ),
       ),

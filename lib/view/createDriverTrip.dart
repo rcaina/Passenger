@@ -260,7 +260,7 @@ class _CreateDriverTripState extends State<CreateDriverTrip> {
           onPressed: () {
             Map<String, dynamic> trip = {
               'id': Uuid().v4(),
-              'driver': globals.user,
+              'driver': globals.currentUserId,
               'startLocation': startLocationController.text,
               'destination': destinationController.text,
               'departureDateTime': departureDateTimeController.text,
@@ -268,9 +268,7 @@ class _CreateDriverTripState extends State<CreateDriverTrip> {
               'passengerCost': passengerCostController.text,
               'passengers': []
             };
-            globals.myTrips.add(trip);
-            globals.trips.add(trip);
-            print("My Trips: " + globals.myTrips.toString());
+            globals.trips.addAll({Uuid().v4(): trip});
             print("Trips: " + globals.trips.toString());
 
             Navigator.pushAndRemoveUntil(

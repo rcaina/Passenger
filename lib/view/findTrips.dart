@@ -29,7 +29,7 @@ class _FindTripsState extends State<FindTrips> {
       ),
       body: Center(
         child: ListView.builder(
-          itemCount: globals.myTrips.length,
+          itemCount: globals.trips.length,
           itemBuilder: (context, index) {
             return TripCard(globals.trips[index]);
           },
