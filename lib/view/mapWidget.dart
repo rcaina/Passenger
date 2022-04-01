@@ -128,7 +128,7 @@ class _MapWidgetState extends State<MapWidget> {
       var sw = LatLng(bounds["southwest"]["lat"], bounds["southwest"]["lng"]);
       var ne = LatLng(bounds["northeast"]["lat"], bounds["northeast"]["lng"]);
       LatLngBounds bound = LatLngBounds(southwest: sw, northeast: ne);
-      CameraUpdate update = CameraUpdate.newLatLngBounds(bound, 50);
+      CameraUpdate update = CameraUpdate.newLatLngBounds(bound, 40);
       mapController.moveCamera(update);
     });
   }

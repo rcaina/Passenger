@@ -27,7 +27,8 @@ class _ProfileState extends State<Profile> {
             Padding(
               padding: EdgeInsets.all(20),
               child: CircleAvatar(
-                backgroundImage: AssetImage("assets/images/mark.png"),
+                backgroundImage:
+                    NetworkImage(globals.users[userId]["imageURL"]),
                 radius: 80.0,
               ),
             ),

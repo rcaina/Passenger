@@ -6,7 +6,7 @@ import 'view/navigation.dart';
 void main() {
   runApp(MaterialApp(
     title: 'Passenger',
-    home: CreateTrip(),
+    home: Navigation(),
     theme: ThemeData(
       primarySwatch: Colors.blue,
     ),

@@ -48,17 +48,7 @@ class _MyTripsState extends State<MyTrips> {
       onTap: () => {
         Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (context) => TripDetails(
-                    trip: trip,
-                    start: '${trip["startLocation"]}',
-                    destination: '${trip["destination"]}',
-                    driver: '${globals.users[trip["driverUserId"]]["name"]}',
-                    departureInfo: '${trip["departureDateTime"]}',
-                    arrivalInfo: '${trip["arrivalDateTime"]}',
-                    seatsAvailable: '${trip["availableSeats"]}',
-                    passengers: trip["passengers"],
-                  )),
+          MaterialPageRoute(builder: (context) => TripDetails(trip: trip)),
         )
       },
       child: Card(
@@ -69,8 +59,8 @@ class _MyTripsState extends State<MyTrips> {
               Expanded(
                 child: ListTile(
                   leading: CircleAvatar(
-                    backgroundImage:
-                        NetworkImage('https://i.redd.it/v0caqchbtn741.jpg'),
+                    backgroundImage: NetworkImage(
+                        globals.users[trip["driverUserId"]]["imageURL"]),
                   ),
                   title: Text('${globals.users[trip["driverUserId"]]["name"]}',
                       style: TextStyle(

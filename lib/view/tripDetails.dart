@@ -1,68 +1,23 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:date_time_picker/date_time_picker.dart';
-import 'package:passenger/view/findTripFilter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:passenger/globals.dart' as globals;
 import 'package:passenger/view/mapWidget.dart';
+import 'package:passenger/view/profile.dart';
 
 class TripDetails extends StatefulWidget {
-  const TripDetails(
-      {Key? key,
-      this.trip,
-      this.start = "",
-      this.destination = "",
-      this.driver = "",
-      this.departureInfo = "",
-      this.arrivalInfo = "",
-      this.seatsAvailable = "",
-      this.passengers = const [],
-      this.userId = 0})
-      : super(key: key);
-  final String start;
-  final String destination;
-  final String driver;
-  final String departureInfo;
-  final String arrivalInfo;
-  final String seatsAvailable;
-  final List<dynamic> passengers;
-  final int userId;
+  const TripDetails({Key? key, required this.trip}) : super(key: key);
   final dynamic trip;
 
   @override
-  _TripDetailsState createState() => _TripDetailsState(
-      this.trip,
-      this.start,
-      this.destination,
-      this.driver,
-      this.departureInfo,
-      this.arrivalInfo,
-      this.seatsAvailable,
-      this.passengers,
-      this.userId);
+  _TripDetailsState createState() => _TripDetailsState(this.trip);
 }
 
 class _TripDetailsState extends State<TripDetails> {
-  String start;
-  String destination;
-  String driver;
-  String departureInfo;
-  String arrivalInfo;
-  String seatsAvailable;
-  List<dynamic> passengers;
-  int userId;
+  _TripDetailsState(this.trip);
+
   dynamic trip;
-
-  _TripDetailsState(
-      this.trip,
-      this.start,
-      this.destination,
-      this.driver,
-      this.departureInfo,
-      this.arrivalInfo,
-      this.seatsAvailable,
-      this.passengers,
-      this.userId);
-
   final _formKey = GlobalKey<FormState>();
   final LatLng _center = const LatLng(45.521563, -122.677433);
   late GoogleMapController mapController;
@@ -77,7 +32,8 @@ class _TripDetailsState extends State<TripDetails> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Trip Details"),
-        actions: this.driver == globals.users[globals.currentUserId]["name"]
+        actions: globals.users[trip["driverUserId"]]["name"] ==
+                globals.users[globals.currentUserId]["name"]
             ? <Widget>[
                 IconButton(
                   icon: const Icon(Icons.mode_edit),
@@ -94,27 +50,25 @@ class _TripDetailsState extends State<TripDetails> {
               ]
             : null,
       ),
-      body: Center(
-        child: Form(
-          key: _formKey,
-          child: Padding(
-            padding: const EdgeInsets.all(15),
-            child: ListView(
-              shrinkWrap: true,
-              children: <Widget>[
-                Container(
-                  // padding: EdgeInsets.fromLTRB(15, 15, 0, 30),
-                  child: locations(this.start, this.destination),
-                ),
-                inputText("Driver", this.driver),
-                inputText("Departure Date/Time", this.departureInfo),
-                inputText("Arrival Date/Time", this.arrivalInfo),
-                inputText("Seats Available", this.seatsAvailable),
-                inputText("Passengers", "- Luke Johnson"),
-                updateButton(),
-                MapWidget(trip),
-              ],
-            ),
+      body: Form(
+        key: _formKey,
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              Container(
+                // padding: EdgeInsets.fromLTRB(15, 15, 0, 30),
+                child: locations(trip["startLocation"], trip["destination"]),
+              ),
+              inputText("Driver", globals.users[trip["driverUserId"]]["name"]),
+              inputText("Departure Date/Time", trip["departureDateTime"]),
+              inputText("Arrival Date/Time", trip["arrivalDateTime"]),
+              inputText("Seats Available", trip["availableSeats"]),
+              listPassengers("Passengers", trip["passengers"]),
+              updateButton(),
+              MapWidget(trip),
+            ],
           ),
         ),
       ),
@@ -169,34 +123,15 @@ class _TripDetailsState extends State<TripDetails> {
     );
   }
 
-  Widget _buildGoogleMap() {
-    final LatLng _center = const LatLng(45.521563, -122.677433);
-
-    return Positioned(
-      left: 50,
-      right: 30,
-      top: 100,
-      bottom: 300,
-      child: Container(
-        child: GoogleMap(
-          mapType: MapType.normal,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 11.0,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget inputText(String label, String info) {
+  Widget inputText(label, info) {
     return Padding(
       padding: EdgeInsets.only(bottom: 15),
-      child: globals.users[globals.currentUserId]["name"] == this.driver
+      child: globals.users[globals.currentUserId]["name"] ==
+              globals.users[trip["driverUserId"]]["name"]
           ? TextFormField(
               enabled: !edit,
               decoration: InputDecoration(labelText: label),
-              initialValue: (info == "null") ? "" : info,
+              initialValue: info.toString(),
             )
           : ListTile(
               enabled: edit,
@@ -209,23 +144,47 @@ class _TripDetailsState extends State<TripDetails> {
     );
   }
 
-  Widget listPassengers(String label, List<dynamic> passengers) {
+  Widget listPassengers(label, passengers) {
     List<dynamic> passengerList = [];
     for (dynamic passenger in passengers) {
-      if (passenger["status"] == "requested") {
+      if (passenger["status"] == "confirmed") {
         passengerList.add(passenger);
       }
     }
     print(passengers);
+    print(passengerList);
     return Padding(
         padding: EdgeInsets.only(bottom: 15),
-        child: ListView.builder(
-            padding: const EdgeInsets.all(0),
-            itemCount: passengerList.length,
-            itemBuilder: (BuildContext context, int index) {
-              print(passengerList[index]);
-              return Text(passengerList[index]);
-            }));
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text("Passengers:", style: TextStyle(fontSize: 18)),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: ClampingScrollPhysics(),
+              padding: const EdgeInsets.only(left: 20),
+              itemCount: passengerList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return RichText(
+                  text: TextSpan(
+                    text: " - " +
+                        globals.users[passengerList[index]["userId"]]["name"],
+                    style: TextStyle(color: Colors.blue, fontSize: 16),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Profile(
+                                  userId: passengerList[index]["userId"])),
+                        );
+                      },
+                  ),
+                );
+              },
+            ),
+          ],
+        ));
   }
 
   Widget inputDateTime(String label) {

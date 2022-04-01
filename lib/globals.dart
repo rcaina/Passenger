@@ -13,8 +13,12 @@ Map<String, dynamic> trips = {
     "passengerCost": 70.50,
     "passengers": [
       {
-        "userId": 1,
-        "status": "requested" // requested | confirmed
+        "userId": "1",
+        "status": "confirmed" // requested | confirmed
+      },
+      {
+        "userId": "2",
+        "status": "confirmed" // requested | confirmed
       }
     ]
   }
@@ -24,6 +28,8 @@ Map<String, dynamic> users = {
   "0": {
     "name": "Mark Johnson",
     "image": "assets/images/mark.png",
+    "imageURL":
+        "https://media.istockphoto.com/photos/genuine-young-latin-american-male-picture-id1183940634?k=20&m=1183940634&s=612x612&w=0&h=_7fBlbiFYfRPPIjmzvzyFd_Hdi85NhJW-Hus-Ua3EyM=",
     "phone": "123-456-7890",
     "about": "I am a junior at BYU studying Computer Science!",
     "interests": "I like to listen to music and watch movies"
@@ -31,6 +37,8 @@ Map<String, dynamic> users = {
   "1": {
     "name": "Andrew Smith",
     "image": "assets/images/mark.png",
+    "imageURL":
+        "https://res.cloudinary.com/highereducation/images/f_auto,q_auto/v1633456446/BestColleges.com/Colin-Weikmann_1_vosixf_1336982131/Colin-Weikmann_1_vosixf_1336982131.png?_i=AA",
     "phone": "123-456-7890",
     "about": "I am a junior at BYU studying Computer Science!",
     "interests": "I like to hike",
@@ -38,6 +46,8 @@ Map<String, dynamic> users = {
   "2": {
     "name": "Andrea Blake",
     "image": "assets/images/andrea.jpg",
+    "imageURL":
+        "https://carlsonschool.umn.edu/sites/carlsonschool.umn.edu/files/Jordyn%20Tayloe_0.jpg",
     "phone": "801-904-1254",
     "about": "I love Charlie Puth",
     "interests": "Camping, Hiking"
@@ -83,4 +93,3 @@ List<dynamic> notifications = [
     "to-date": "10/31/22",
   }
 ];
-
