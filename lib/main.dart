@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:passenger/view/createDriverTrip.dart';
 import 'package:passenger/view/createTrip.dart';
-import 'package:passenger/view/map.dart';
 import 'view/navigation.dart';
 
 void main() {
   runApp(MaterialApp(
     title: 'Passenger',
-    home: MapView(),
+    home: CreateTrip(),
     theme: ThemeData(
       primarySwatch: Colors.blue,
     ),

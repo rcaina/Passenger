@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:passenger/globals.dart' as globals;
-
-import 'dart:async';
-
 import 'package:passenger/network/server_facade.dart';
 
-class MapView extends StatefulWidget {
+class MapWidget extends StatefulWidget {
+  const MapWidget(this.trip);
+  final dynamic trip;
   @override
-  _MapViewState createState() => _MapViewState();
+  _MapWidgetState createState() => _MapWidgetState(this.trip);
 }
 
 // Markers to show points on the map
@@ -17,10 +15,12 @@ Map<MarkerId, Marker> markers = {};
 List<PointLatLng> polylinePoints = [];
 Map<PolylineId, Polyline> polylines = {};
 
-class _MapViewState extends State<MapView> {
+class _MapWidgetState extends State<MapWidget> {
+  _MapWidgetState(this.trip);
+  dynamic trip;
+
   PolylinePoints polylinePoints = PolylinePoints();
   late GoogleMapController mapController;
-
   CameraPosition initialLocation = CameraPosition(
     target: LatLng(40, -100),
     zoom: 3.5,
@@ -29,6 +29,12 @@ class _MapViewState extends State<MapView> {
   @override
   void initState() {
     super.initState();
+    if (trip["startLocation"].toString().isNotEmpty &&
+        trip["destination"].toString().isNotEmpty) {
+      drawRoute(trip["startLocation"], trip["destination"]);
+    } else {
+      clearMap();
+    }
   }
 
   @override
@@ -39,46 +45,22 @@ class _MapViewState extends State<MapView> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Route"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            RaisedButton(
-              child: Text("Clear Map"),
-              onPressed: () {
-                clearMap();
-              },
-            ),
-            RaisedButton(
-              child: Text("Get Directions"),
-              onPressed: () {
-                drawRoute();
-              },
-            ),
-            Container(
-              height: height / 3,
-              width: width,
-              child: GoogleMap(
-                mapType: MapType.normal,
-                initialCameraPosition: initialLocation,
-                myLocationButtonEnabled: false,
-                tiltGesturesEnabled: true,
-                compassEnabled: true,
-                scrollGesturesEnabled: true,
-                zoomGesturesEnabled: true,
-                polylines: Set<Polyline>.of(polylines.values),
-                markers: Set<Marker>.of(markers.values),
-                onMapCreated: (GoogleMapController controller) {
-                  mapController = controller;
-                },
-              ),
-            ),
-          ],
-        ),
+    return Container(
+      height: 220,
+      width: width * 0.75,
+      child: GoogleMap(
+        mapType: MapType.normal,
+        initialCameraPosition: initialLocation,
+        myLocationButtonEnabled: false,
+        tiltGesturesEnabled: true,
+        compassEnabled: true,
+        scrollGesturesEnabled: true,
+        zoomGesturesEnabled: true,
+        polylines: Set<Polyline>.of(polylines.values),
+        markers: Set<Marker>.of(markers.values),
+        onMapCreated: (GoogleMapController controller) {
+          mapController = controller;
+        },
       ),
     );
   }
@@ -86,8 +68,6 @@ class _MapViewState extends State<MapView> {
   clearMap() {
     polylines.clear();
     markers.clear();
-    CameraUpdate update = CameraUpdate.newCameraPosition(initialLocation);
-    mapController.moveCamera(update);
     setState(() {});
   }
 
@@ -120,9 +100,9 @@ class _MapViewState extends State<MapView> {
     _addPolyLine(polylineCoordinates);
   }
 
-  drawRoute() {
+  drawRoute(start, destination) {
     clearMap();
-    ServerFacade.getDirectionsBetweenTwoCities("Highland, UT", "Austin, TX")
+    ServerFacade.getDirectionsBetweenTwoCities(start, destination)
         .then((response) {
       var distance = response["routes"][0]["legs"][0]["distance"]["text"];
       var duration = response["routes"][0]["legs"][0]["duration"]["text"];
@@ -130,11 +110,6 @@ class _MapViewState extends State<MapView> {
       var endLocation = response["routes"][0]["legs"][0]["end_location"];
       var points = response["routes"][0]["overview_polyline"]["points"];
       var bounds = response["routes"][0]["bounds"];
-      print("Distance: " + distance.toString());
-      print("Duration: " + duration.toString());
-      print("Start: " + startLocation.toString());
-      print("End: " + endLocation.toString());
-      print("Points: " + points.toString());
 
       _addMarker(
         LatLng(startLocation["lat"], startLocation["lng"]),
@@ -154,12 +129,6 @@ class _MapViewState extends State<MapView> {
       var ne = LatLng(bounds["northeast"]["lat"], bounds["northeast"]["lng"]);
       LatLngBounds bound = LatLngBounds(southwest: sw, northeast: ne);
       CameraUpdate update = CameraUpdate.newLatLngBounds(bound, 50);
-
-      // var cameraLat = (startLocation["lat"] + endLocation["lat"]) / 2;
-      // var cameraLng = (startLocation["lng"] + endLocation["lng"]) / 2;
-      // var newPosition =
-      //     CameraPosition(target: LatLng(cameraLat, cameraLng), zoom: 6);
-      //CameraUpdate update = CameraUpdate.newCameraPosition(newPosition);
       mapController.moveCamera(update);
     });
   }

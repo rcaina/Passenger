@@ -3,10 +3,12 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:passenger/view/findTripFilter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:passenger/globals.dart' as globals;
+import 'package:passenger/view/mapWidget.dart';
 
 class TripDetails extends StatefulWidget {
   const TripDetails(
       {Key? key,
+      this.trip,
       this.start = "",
       this.destination = "",
       this.driver = "",
@@ -24,9 +26,11 @@ class TripDetails extends StatefulWidget {
   final String seatsAvailable;
   final List<dynamic> passengers;
   final int userId;
+  final dynamic trip;
 
   @override
   _TripDetailsState createState() => _TripDetailsState(
+      this.trip,
       this.start,
       this.destination,
       this.driver,
@@ -46,8 +50,10 @@ class _TripDetailsState extends State<TripDetails> {
   String seatsAvailable;
   List<dynamic> passengers;
   int userId;
+  dynamic trip;
 
   _TripDetailsState(
+      this.trip,
       this.start,
       this.destination,
       this.driver,
@@ -76,15 +82,9 @@ class _TripDetailsState extends State<TripDetails> {
                 IconButton(
                   icon: const Icon(Icons.mode_edit),
                   onPressed: () {
-                    if (edit) {
-                      setState(() {
-                        edit = false;
-                      });
-                    } else {
-                      setState(() {
-                        edit = true;
-                      });
-                    }
+                    setState(() {
+                      edit = !edit;
+                    });
                     // Navigator.push(
                     //   context,
                     //   MaterialPageRoute(builder: (context) => FindTripFilter()),
@@ -99,22 +99,21 @@ class _TripDetailsState extends State<TripDetails> {
           key: _formKey,
           child: Padding(
             padding: const EdgeInsets.all(15),
-            child: Container(
-              alignment: Alignment.center,
-              child: ListView(
-                children: <Widget>[
-                  Container(
-                    // padding: EdgeInsets.fromLTRB(15, 15, 0, 30),
-                    child: trip(this.start, this.destination),
-                  ),
-                  inputText("Driver", this.driver),
-                  inputText("Departure Date/Time", this.departureInfo),
-                  inputText("Arrival Date/Time", this.arrivalInfo),
-                  inputText("Seats Available", this.seatsAvailable),
-                  inputText("Passengers", "- Luke Johnson"),
-                  updateButton(),
-                ],
-              ),
+            child: ListView(
+              shrinkWrap: true,
+              children: <Widget>[
+                Container(
+                  // padding: EdgeInsets.fromLTRB(15, 15, 0, 30),
+                  child: locations(this.start, this.destination),
+                ),
+                inputText("Driver", this.driver),
+                inputText("Departure Date/Time", this.departureInfo),
+                inputText("Arrival Date/Time", this.arrivalInfo),
+                inputText("Seats Available", this.seatsAvailable),
+                inputText("Passengers", "- Luke Johnson"),
+                updateButton(),
+                MapWidget(trip),
+              ],
             ),
           ),
         ),
@@ -129,21 +128,15 @@ class _TripDetailsState extends State<TripDetails> {
                 style: TextStyle(color: Colors.white, fontSize: 18)),
             color: Colors.blue,
             onPressed: () {
-              if (edit) {
-                setState(() {
-                  edit = false;
-                });
-              } else {
-                setState(() {
-                  edit = true;
-                });
-              }
+              setState(() {
+                edit = !edit;
+              });
             },
           )
         : Container();
   }
 
-  Widget trip(String start, String destination) {
+  Widget locations(String start, String destination) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[

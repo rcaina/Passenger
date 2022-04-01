@@ -50,6 +50,7 @@ class _MyTripsState extends State<MyTrips> {
           context,
           MaterialPageRoute(
               builder: (context) => TripDetails(
+                    trip: trip,
                     start: '${trip["startLocation"]}',
                     destination: '${trip["destination"]}',
                     driver: '${globals.users[trip["driverUserId"]]["name"]}',
