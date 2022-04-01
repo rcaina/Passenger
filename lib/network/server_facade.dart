@@ -26,4 +26,21 @@ class ServerFacade {
       return "Missing start or destination";
     }
   }
+
+  static Future<dynamic> getDirectionsBetweenTwoCities(
+      String start, String destination) async {
+    if (start.isNotEmpty && destination.isNotEmpty) {
+      var response = await http.get(Uri.parse(googleMapsDirectionsAPI +
+          '?origin=' +
+          start +
+          "&destination=" +
+          destination +
+          "&key=" +
+          GOOGLE_MAPS_API_KEY +
+          "&units=imperial"));
+      return jsonDecode(response.body);
+    } else {
+      return "Missing start or destination";
+    }
+  }
 }

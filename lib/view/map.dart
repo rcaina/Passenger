@@ -5,94 +5,92 @@ import 'package:passenger/globals.dart' as globals;
 
 import 'dart:async';
 
+import 'package:passenger/network/server_facade.dart';
+
 class MapView extends StatefulWidget {
   @override
   _MapViewState createState() => _MapViewState();
 }
 
-// Starting point latitude
-double _originLatitude = 6.5212402;
-// Starting point longitude
-double _originLongitude = 3.3679965;
-// Destination latitude
-double _destLatitude = 6.849660;
-// Destination Longitude
-double _destLongitude = 3.648190;
 // Markers to show points on the map
 Map<MarkerId, Marker> markers = {};
-
-//PolylinePoints polylinePoints = PolylinePoints();
 List<PointLatLng> polylinePoints = [];
-
 Map<PolylineId, Polyline> polylines = {};
 
 class _MapViewState extends State<MapView> {
-  // Google Maps controller
-  Completer<GoogleMapController> _controller = Completer();
-  // Configure map position and zoom
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(_originLatitude, _originLongitude),
-    zoom: 1.4746,
-  );
-
   PolylinePoints polylinePoints = PolylinePoints();
+  late GoogleMapController mapController;
+
+  CameraPosition initialLocation = CameraPosition(
+    target: LatLng(40, -100),
+    zoom: 3.5,
+  );
 
   @override
   void initState() {
-    /// add origin marker origin marker
-    _addMarker(
-      LatLng(_originLatitude, _originLongitude),
-      "origin",
-      BitmapDescriptor.defaultMarker,
-    );
-
-    // Add destination marker
-    _addMarker(
-      LatLng(_destLatitude, _destLongitude),
-      "destination",
-      BitmapDescriptor.defaultMarkerWithHue(90),
-    );
-
-    _getPolyline();
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     // Initial location of the Map view
-    CameraPosition _initialLocation = CameraPosition(target: LatLng(0.0, 0.0));
-
-    // For controlling the view of the Map
-    late GoogleMapController mapController;
 
     // Determining the screen width & height
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
 
-    return Container(
-      height: height,
-      width: width,
-      child: Scaffold(
-        body: GoogleMap(
-          mapType: MapType.normal,
-          initialCameraPosition: _kGooglePlex,
-          myLocationEnabled: true,
-          tiltGesturesEnabled: true,
-          compassEnabled: true,
-          scrollGesturesEnabled: true,
-          zoomGesturesEnabled: true,
-          polylines: Set<Polyline>.of(polylines.values),
-          markers: Set<Marker>.of(markers.values),
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-          },
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Route"),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            RaisedButton(
+              child: Text("Clear Map"),
+              onPressed: () {
+                clearMap();
+              },
+            ),
+            RaisedButton(
+              child: Text("Get Directions"),
+              onPressed: () {
+                drawRoute();
+              },
+            ),
+            Container(
+              height: height / 3,
+              width: width,
+              child: GoogleMap(
+                mapType: MapType.normal,
+                initialCameraPosition: initialLocation,
+                myLocationButtonEnabled: false,
+                tiltGesturesEnabled: true,
+                compassEnabled: true,
+                scrollGesturesEnabled: true,
+                zoomGesturesEnabled: true,
+                polylines: Set<Polyline>.of(polylines.values),
+                markers: Set<Marker>.of(markers.values),
+                onMapCreated: (GoogleMapController controller) {
+                  mapController = controller;
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-// This method will add markers to the map based on the LatLng position
+  clearMap() {
+    polylines.clear();
+    markers.clear();
+    CameraUpdate update = CameraUpdate.newCameraPosition(initialLocation);
+    mapController.moveCamera(update);
+    setState(() {});
+  }
+
   _addMarker(LatLng position, String id, BitmapDescriptor descriptor) {
     MarkerId markerId = MarkerId(id);
     Marker marker =
@@ -105,28 +103,64 @@ class _MapViewState extends State<MapView> {
     Polyline polyline = Polyline(
       polylineId: id,
       points: polylineCoordinates,
-      width: 8,
+      width: 4,
+      color: Colors.lightBlue,
     );
     polylines[id] = polyline;
     setState(() {});
   }
 
-  void _getPolyline() async {
+  _getPolyline(points) {
     List<LatLng> polylineCoordinates = [];
     PolylinePoints polylinePoints = PolylinePoints();
-    List<PointLatLng> result = polylinePoints.decodePolyline(
-        "kn}tFnkvhTm@R?yBCeDGK?iA@uEDwPB{DH{XF_SHuULaW?yFUiUG{DFUCsBIuGE}AOSWmBg@oDS_BAo@AwA?YAsIGkRB_BzDj@nOpBjC^nFp@rDTnJd@pBD|CRrFThFJ~CCfACtAKvBMdFc@|UqBpCS`EUnQaAjQaAhBGvA?lBJpAJtAT~Dv@xKtBlIzAfAJx@DbB@pB?hH@lT?xG?~K@|G?tE@~@BpDEjMBnIBlQ?fN@xC@fD@H?LN^@zGDvAAfE@fB?pA??i@@gF@kBvCAnB??pDAxC");
-    print(result);
-
-    // PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-    //   "AIzaSyB-xwiFx0RmrOWmoDjsXHb4cGYbsL4128U",
-    //   PointLatLng(_originLatitude, _originLongitude),
-    //   PointLatLng(_destLatitude, _destLongitude),
-    //   travelMode: TravelMode.driving,
-    // );
+    List<PointLatLng> result = polylinePoints.decodePolyline(points);
     result.forEach((PointLatLng point) {
       polylineCoordinates.add(LatLng(point.latitude, point.longitude));
     });
     _addPolyLine(polylineCoordinates);
+  }
+
+  drawRoute() {
+    clearMap();
+    ServerFacade.getDirectionsBetweenTwoCities("Highland, UT", "Austin, TX")
+        .then((response) {
+      var distance = response["routes"][0]["legs"][0]["distance"]["text"];
+      var duration = response["routes"][0]["legs"][0]["duration"]["text"];
+      var startLocation = response["routes"][0]["legs"][0]["start_location"];
+      var endLocation = response["routes"][0]["legs"][0]["end_location"];
+      var points = response["routes"][0]["overview_polyline"]["points"];
+      var bounds = response["routes"][0]["bounds"];
+      print("Distance: " + distance.toString());
+      print("Duration: " + duration.toString());
+      print("Start: " + startLocation.toString());
+      print("End: " + endLocation.toString());
+      print("Points: " + points.toString());
+
+      _addMarker(
+        LatLng(startLocation["lat"], startLocation["lng"]),
+        "origin",
+        BitmapDescriptor.defaultMarker,
+      );
+
+      _addMarker(
+        LatLng(endLocation["lat"], endLocation["lng"]),
+        "destination",
+        BitmapDescriptor.defaultMarkerWithHue(90),
+      );
+
+      _getPolyline(points);
+
+      var sw = LatLng(bounds["southwest"]["lat"], bounds["southwest"]["lng"]);
+      var ne = LatLng(bounds["northeast"]["lat"], bounds["northeast"]["lng"]);
+      LatLngBounds bound = LatLngBounds(southwest: sw, northeast: ne);
+      CameraUpdate update = CameraUpdate.newLatLngBounds(bound, 50);
+
+      // var cameraLat = (startLocation["lat"] + endLocation["lat"]) / 2;
+      // var cameraLng = (startLocation["lng"] + endLocation["lng"]) / 2;
+      // var newPosition =
+      //     CameraPosition(target: LatLng(cameraLat, cameraLng), zoom: 6);
+      //CameraUpdate update = CameraUpdate.newCameraPosition(newPosition);
+      mapController.moveCamera(update);
+    });
   }
 }
