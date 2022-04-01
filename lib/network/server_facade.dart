@@ -27,18 +27,20 @@ class ServerFacade {
     }
   }
 
-  static Future<dynamic> getDirectionsBetweenTwoCities(
-      String start, String destination) async {
+  static Future<dynamic> getDirections(
+      String start, String destination, String waypoints) async {
     if (start.isNotEmpty && destination.isNotEmpty) {
       var response = await http.get(Uri.parse(googleMapsDirectionsAPI +
           '?origin=' +
           start +
           "&destination=" +
           destination +
+          "&waypoints=" +
+          waypoints +
           "&key=" +
           GOOGLE_MAPS_API_KEY +
           "&units=imperial"));
-      return jsonDecode(response.body);
+      return jsonDecode(response.body)["routes"][0];
     } else {
       return "Missing start or destination";
     }
