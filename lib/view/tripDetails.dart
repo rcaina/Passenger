@@ -151,8 +151,6 @@ class _TripDetailsState extends State<TripDetails> {
         passengerList.add(passenger);
       }
     }
-    print(passengers);
-    print(passengerList);
     return Padding(
         padding: EdgeInsets.only(bottom: 15),
         child: Column(
@@ -167,8 +165,8 @@ class _TripDetailsState extends State<TripDetails> {
               itemBuilder: (BuildContext context, int index) {
                 return RichText(
                   text: TextSpan(
-                    text: " - " +
-                        globals.users[passengerList[index]["userId"]]["name"],
+                    text:
+                        '- ${globals.users[passengerList[index]["userId"]]["name"]} (${passengerList[index]["destination"]})',
                     style: TextStyle(color: Colors.blue, fontSize: 16),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {

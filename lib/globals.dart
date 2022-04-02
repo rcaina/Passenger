@@ -14,11 +14,13 @@ Map<String, dynamic> trips = {
     "passengers": [
       {
         "userId": "1",
-        "status": "confirmed" // requested | confirmed
+        "status": "confirmed", // requested | confirmed
+        "destination": "Amarillo, Tx"
       },
       {
         "userId": "2",
-        "status": "confirmed" // requested | confirmed
+        "status": "requested", // requested | confirmed
+        "destination": "Dallas, Tx"
       }
     ]
   },

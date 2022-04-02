@@ -31,7 +31,8 @@ class _MapWidgetState extends State<MapWidget> {
     super.initState();
     if (trip["startLocation"].toString().isNotEmpty &&
         trip["destination"].toString().isNotEmpty) {
-      drawRoute(trip["startLocation"], trip["destination"]);
+      drawRoute(trip["startLocation"], trip["destination"],
+          getWaypoints(trip["passengers"]));
     } else {
       clearMap();
     }
@@ -100,28 +101,50 @@ class _MapWidgetState extends State<MapWidget> {
     _addPolyLine(polylineCoordinates);
   }
 
-  drawRoute(start, destination) {
-    clearMap();
-    ServerFacade.getDirectionsBetweenTwoCities(start, destination)
-        .then((response) {
-      var distance = response["routes"][0]["legs"][0]["distance"]["text"];
-      var duration = response["routes"][0]["legs"][0]["duration"]["text"];
-      var startLocation = response["routes"][0]["legs"][0]["start_location"];
-      var endLocation = response["routes"][0]["legs"][0]["end_location"];
-      var points = response["routes"][0]["overview_polyline"]["points"];
-      var bounds = response["routes"][0]["bounds"];
+  getWaypoints(passengers) {
+    String waypoints = "";
+    for (dynamic passenger in passengers) {
+      if (passenger["status"] == "confirmed") {
+        waypoints += passenger["destination"];
+      }
+    }
+    return waypoints;
+  }
 
+  drawRoute(start, destination, waypoints) {
+    clearMap();
+
+    ServerFacade.getDirections(start, destination, waypoints).then((route) {
+      //var distance = response["routes"][0]["legs"][0]["distance"]["text"];
+      //var duration = response["routes"][0]["legs"][0]["duration"]["text"];
+
+      for (var i = 0; i < route["legs"].length; i++) {
+        var startAddress = route["legs"][i]["start_address"];
+        var endAddress = route["legs"][i]["end_address"];
+        var startLocation = route["legs"][i]["start_location"];
+        var endLocation = route["legs"][i]["end_location"];
+
+        _addMarker(
+          LatLng(startLocation["lat"], startLocation["lng"]),
+          startAddress,
+          BitmapDescriptor.defaultMarker,
+        );
+        _addMarker(
+          LatLng(endLocation["lat"], endLocation["lng"]),
+          endAddress,
+          BitmapDescriptor.defaultMarker,
+        );
+      }
+      var startAddress = route["legs"][0]["start_address"];
+      var startLocation = route["legs"][0]["start_location"];
       _addMarker(
         LatLng(startLocation["lat"], startLocation["lng"]),
-        "origin",
-        BitmapDescriptor.defaultMarker,
-      );
-
-      _addMarker(
-        LatLng(endLocation["lat"], endLocation["lng"]),
-        "destination",
+        startAddress,
         BitmapDescriptor.defaultMarkerWithHue(90),
       );
+
+      var points = route["overview_polyline"]["points"];
+      var bounds = route["bounds"];
 
       _getPolyline(points);
 
