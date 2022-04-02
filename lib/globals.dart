@@ -23,6 +23,25 @@ Map<String, dynamic> trips = {
         "destination": "Dallas, Tx"
       }
     ]
+  },
+  "1": {
+    "driverUserId": "1",
+    "startLocation": "BYU, Provo, UT",
+    "destination": "San Diego, CA",
+    "departureDateTime": "4/21/22",
+    "arrivalDateTime": "4/22/22",
+    "availableSeats": 3,
+    "passengerCost": 50.00,
+    "passengers": [
+      {
+        "userId": "1",
+        "status": "confirmed" // requested | confirmed
+      },
+      {
+        "userId": "2",
+        "status": "confirmed" // requested | confirmed
+      }
+    ]
   }
 };
 

@@ -64,7 +64,7 @@ class _TripDetailsState extends State<TripDetails> {
               inputText("Driver", globals.users[trip["driverUserId"]]["name"]),
               inputText("Departure Date/Time", trip["departureDateTime"]),
               inputText("Arrival Date/Time", trip["arrivalDateTime"]),
-              inputText("Seats Available", trip["availableSeats"]),
+              inputText("Seats Available", '${trip["availableSeats"]}'),
               listPassengers("Passengers", trip["passengers"]),
               updateButton(),
               MapWidget(trip),
