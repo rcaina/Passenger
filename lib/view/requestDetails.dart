@@ -50,7 +50,7 @@ class _RequestDetailsState extends State<RequestDetails> {
             requesterCard(globals.users[request["passengerId"]]),
             Text("Estimated Time Added to Trip: " + timeAddedToRoute),
             Text("Estimated Distance Added to Trip: " + distanceAddedToRoute),
-            Text("New Route:"),
+            Text("New Route with ${request["passengerDestination"]}:"),
             MapWidget(newTrip),
           ]),
         ));
