@@ -22,6 +22,7 @@ class _MyTripsState extends State<MyTrips> {
       if (('${globals.users[item.value["driverUserId"]]["name"]}' ==
           '${globals.users[globals.currentUserId]["name"]}')) {
         trips.putIfAbsent(item.key, () => item.value);
+        continue;
       }
       for (dynamic passenger in item.value["passengers"]) {
         if (passenger["name"] ==

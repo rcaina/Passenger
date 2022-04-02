@@ -15,8 +15,9 @@ class _FindTripsState extends State<FindTrips> {
   Widget build(BuildContext context) {
     Map<String, dynamic> trips = Map<String, dynamic>();
     for (var item in globals.trips.entries) {
-      if ('${globals.users[item.value["driverUserId"]]["name"]}' !=
-          '${globals.users[globals.currentUserId]["name"]}') {
+      if (('${globals.users[item.value["driverUserId"]]["name"]}' !=
+              '${globals.users[globals.currentUserId]["name"]}') &&
+          (item.value["passengers"].length < item.value["availableSeats"])) {
         trips.putIfAbsent(item.key, () => item.value);
       }
     }
