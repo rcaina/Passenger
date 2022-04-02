@@ -36,12 +36,12 @@ Map<String, dynamic> trips = {
       {
         "userId": "1",
         "status": "confirmed", // requested | confirmed
-        "destination": "San Diego, CA"
+        "destination": "Las Vegas, NV"
       },
       {
         "userId": "2",
         "status": "confirmed", // requested | confirmed
-        "destination": "San Diego, CA"
+        "destination": "Los Angeles, CA"
       }
     ]
   }
@@ -51,17 +51,13 @@ Map<String, dynamic> users = {
   "0": {
     "name": "Mark Johnson",
     "image": "assets/images/mark.png",
-    "imageURL":
-        "https://media.istockphoto.com/photos/genuine-young-latin-american-male-picture-id1183940634?k=20&m=1183940634&s=612x612&w=0&h=_7fBlbiFYfRPPIjmzvzyFd_Hdi85NhJW-Hus-Ua3EyM=",
     "phone": "123-456-7890",
     "about": "I am a junior at BYU studying Computer Science!",
     "interests": "I like to listen to music and watch movies"
   },
   "1": {
     "name": "Andrew Smith",
-    "image": "assets/images/mark.png",
-    "imageURL":
-        "https://res.cloudinary.com/highereducation/images/f_auto,q_auto/v1633456446/BestColleges.com/Colin-Weikmann_1_vosixf_1336982131/Colin-Weikmann_1_vosixf_1336982131.png?_i=AA",
+    "image": "assets/images/andrew.png",
     "phone": "123-456-7890",
     "about": "I am a junior at BYU studying Computer Science!",
     "interests": "I like to hike",
@@ -69,8 +65,6 @@ Map<String, dynamic> users = {
   "2": {
     "name": "Andrea Blake",
     "image": "assets/images/andrea.jpg",
-    "imageURL":
-        "https://carlsonschool.umn.edu/sites/carlsonschool.umn.edu/files/Jordyn%20Tayloe_0.jpg",
     "phone": "801-904-1254",
     "about": "I love Charlie Puth",
     "interests": "Camping, Hiking"
@@ -79,9 +73,9 @@ Map<String, dynamic> users = {
 
 Map<String, dynamic> requests = {
   "0": {
-    "passengerId": "0",
+    "passengerId": "1",
     "tripId": "0",
-    "passengerDestination": "Austin",
+    "passengerDestination": "Amarillo, Tx",
     "message": "Hello. Id like to join you.",
     "passengerContribution": 50.50,
     "read": false,
