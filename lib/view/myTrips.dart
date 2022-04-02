@@ -76,7 +76,7 @@ class _MyTripsState extends State<MyTrips> {
               Expanded(
                 child: ListTile(
                     leading: CircleAvatar(
-                      backgroundImage: NetworkImage(
+                      backgroundImage: AssetImage(
                           globals.users[trip["driverUserId"]]["image"]),
                     ),
                     title:
