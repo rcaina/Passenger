@@ -13,6 +13,14 @@ class FindTrips extends StatefulWidget {
 class _FindTripsState extends State<FindTrips> {
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> trips = Map<String, dynamic>();
+    for (var item in globals.trips.entries) {
+      if ('${globals.users[item.value["driverUserId"]]["name"]}' !=
+          '${globals.users[globals.currentUserId]["name"]}') {
+        trips.putIfAbsent(item.key, () => item.value);
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Find Trips"),
@@ -30,10 +38,10 @@ class _FindTripsState extends State<FindTrips> {
       ),
       body: Center(
         child: ListView.builder(
-          itemCount: globals.trips.length,
+          itemCount: trips.length,
           itemBuilder: (context, index) {
-            String key = globals.trips.keys.elementAt(index);
-            return TripCard(globals.trips[key]);
+            String key = trips.keys.elementAt(index);
+            return TripCard(trips[key]);
           },
         ),
       ),
