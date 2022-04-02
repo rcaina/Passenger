@@ -105,7 +105,7 @@ class _MapWidgetState extends State<MapWidget> {
     String waypoints = "";
     for (dynamic passenger in passengers) {
       if (passenger["status"] == "confirmed") {
-        waypoints += passenger["destination"];
+        waypoints += passenger["destination"] + "|";
       }
     }
     return waypoints;

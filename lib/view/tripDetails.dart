@@ -166,7 +166,7 @@ class _TripDetailsState extends State<TripDetails> {
                 return RichText(
                   text: TextSpan(
                     text:
-                        '- ${globals.users[passengerList[index]["userId"]]["name"]} (${passengerList[index]["destination"]})',
+                        '- ${globals.users[passengerList[index]["userId"]]["name"]} (${passengerList[index]["destination"]!})',
                     style: TextStyle(color: Colors.blue, fontSize: 16),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
