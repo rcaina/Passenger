@@ -89,7 +89,7 @@ Map<String, dynamic> requests = {
   }
 };
 
-Map<String, dynamic> requestResponse = {
+Map<String, dynamic> requestResponses = {
   "0": {
     "requestId": "0",
     "addedToTrip": true,
