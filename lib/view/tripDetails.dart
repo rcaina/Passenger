@@ -85,10 +85,12 @@ class _TripDetailsState extends State<TripDetails> {
                 style: TextStyle(color: Colors.white, fontSize: 18)),
             color: Colors.blue,
             onPressed: () {
+              /*
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => RequestDetails()),
               );
+               */
             },
           )
         : Container();

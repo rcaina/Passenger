@@ -6,13 +6,16 @@ import 'package:passenger/network/server_facade.dart';
 import 'package:passenger/view/mapWidget.dart';
 
 class RequestDetails extends StatefulWidget {
-  const RequestDetails({Key? key}) : super(key: key);
+  const RequestDetails({Key? key, required this.request}) : super(key: key);
+
+  final dynamic request;
+
   @override
   State<StatefulWidget> createState() => _RequestDetailsState();
 }
 
 class _RequestDetailsState extends State<RequestDetails> {
-  dynamic request = globals.requests["0"];
+  dynamic request;
   String timeAddedToRoute = "";
   String distanceAddedToRoute = "";
   dynamic currentTrip, newTrip;
@@ -20,6 +23,7 @@ class _RequestDetailsState extends State<RequestDetails> {
   @override
   void initState() {
     super.initState();
+    request = widget.request;
     currentTrip = globals.trips[request["tripId"]];
     newTrip = jsonDecode(jsonEncode(currentTrip));
     for (var i = 0; i < newTrip["passengers"].length; i++) {
