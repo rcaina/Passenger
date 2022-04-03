@@ -44,6 +44,16 @@ Map<String, dynamic> trips = {
         "destination": "Los Angeles, CA"
       }
     ]
+  },
+  "2": {
+    "driverUserId": "2",
+    "startLocation": "BYU, Provo, UT",
+    "destination": "San Diego, CA",
+    "departureDateTime": "8/21/22",
+    "arrivalDateTime": "8/21/22",
+    "availableSeats": 3,
+    "passengerCost": 50.00,
+    "passengers": []
   }
 };
 
@@ -85,6 +95,25 @@ Map<String, dynamic> requests = {
     "passengerDestination": "Dallas, Tx",
     "message": "Hello. Id like to join you.",
     "passengerContribution": 50.50,
+    "status": "requested", // requested, confirmed, or denied
+    "read": false,
+  },
+  "1": {
+    "passengerId": "0",
+    "tripId": "1",
+    "passengerDestination": "Saint George, UT",
+    "message": "Hello. Can you take me to Saint George?",
+    "passengerContribution": 50.00,
+    "status": "denied", // requested, confirmed, or denied
+    "read": false,
+  },
+  "2": {
+    "passengerId": "0",
+    "tripId": "2",
+    "passengerDestination": "Saint George, UT",
+    "message": "Hello. Can you take me to Saint George?",
+    "passengerContribution": 50.00,
+    "status": "confirmed", // requested, confirmed, or denied
     "read": false,
   }
 };
@@ -94,26 +123,16 @@ Map<String, dynamic> requestResponses = {
     "requestId": "0",
     "addedToTrip": true,
     "read": false,
+  },
+  "1": {
+    "requestId": "1",
+    "addedToTrip": false,
+    "read": false,
+  },
+  "2": {
+    "requestId": "2",
+    "addedToTrip": true,
+    "read": false,
   }
 };
 
-List<dynamic> notifications = [
-  {
-    "user-name": "Andrew Smith",
-    "userId": "1",
-    "message": "has confirmed your request to ride with them.",
-    "from-location": "Austin, TX",
-    "to-location": "BYU",
-    "from-date": "8/28/22",
-    "to-date": "8/29/22",
-  },
-  {
-    "user-name": "Andrea Blake",
-    "userId": "2",
-    "message": "has denied your request to ride with them.",
-    "from-location": "BYU",
-    "to-location": "Irving, TX",
-    "from-date": "10/30/22",
-    "to-date": "10/31/22",
-  }
-];
