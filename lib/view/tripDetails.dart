@@ -5,19 +5,25 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:passenger/globals.dart' as globals;
 import 'package:passenger/view/mapWidget.dart';
 import 'package:passenger/view/profile.dart';
+import 'package:passenger/view/requestDetails.dart';
 
 class TripDetails extends StatefulWidget {
-  const TripDetails({Key? key, required this.trip}) : super(key: key);
+  const TripDetails(
+      {Key? key, required this.trip, required this.addRequestButton})
+      : super(key: key);
   final dynamic trip;
+  final bool addRequestButton;
 
   @override
-  _TripDetailsState createState() => _TripDetailsState(this.trip);
+  _TripDetailsState createState() =>
+      _TripDetailsState(this.trip, this.addRequestButton);
 }
 
 class _TripDetailsState extends State<TripDetails> {
-  _TripDetailsState(this.trip);
+  _TripDetailsState(this.trip, this.addRequestButton);
 
   dynamic trip;
+  bool addRequestButton;
   final _formKey = GlobalKey<FormState>();
   final LatLng _center = const LatLng(45.521563, -122.677433);
   late GoogleMapController mapController;
@@ -41,10 +47,6 @@ class _TripDetailsState extends State<TripDetails> {
                     setState(() {
                       edit = !edit;
                     });
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => FindTripFilter()),
-                    // );
                   },
                 ),
               ]
@@ -68,6 +70,7 @@ class _TripDetailsState extends State<TripDetails> {
               listPassengers("Passengers", trip["passengers"]),
               updateButton(),
               MapWidget(trip),
+              requestButton(),
             ],
           ),
         ),
@@ -76,6 +79,22 @@ class _TripDetailsState extends State<TripDetails> {
   }
 
   Widget updateButton() {
+    return addRequestButton
+        ? RaisedButton(
+            child: const Text('Request',
+                style: TextStyle(color: Colors.white, fontSize: 18)),
+            color: Colors.blue,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RequestDetails()),
+              );
+            },
+          )
+        : Container();
+  }
+
+  Widget requestButton() {
     return !edit
         ? RaisedButton(
             child: const Text('Update',

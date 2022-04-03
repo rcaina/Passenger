@@ -54,7 +54,11 @@ class _FindTripsState extends State<FindTrips> {
       onTap: () => {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => TripDetails(trip: trip)),
+          MaterialPageRoute(
+              builder: (context) => TripDetails(
+                    trip: trip,
+                    addRequestButton: true,
+                  )),
         )
       },
       child: Card(

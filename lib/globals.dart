@@ -34,7 +34,7 @@ Map<String, dynamic> trips = {
     "passengerCost": 50.00,
     "passengers": [
       {
-        "userId": "1",
+        "userId": "3",
         "status": "confirmed", // requested | confirmed
         "destination": "Las Vegas, NV"
       },
@@ -68,6 +68,13 @@ Map<String, dynamic> users = {
     "phone": "801-904-1254",
     "about": "I love Charlie Puth",
     "interests": "Camping, Hiking"
+  },
+  "3": {
+    "name": "Obi-Wan Kenobi",
+    "image": "assets/images/obi-wan.jpg",
+    "phone": "801-890-1331",
+    "about": "I am a Jedi and I trained Darth Vader",
+    "interests": "Using the force, Jedi Temple"
   },
 };
 
