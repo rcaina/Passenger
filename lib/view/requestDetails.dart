@@ -52,33 +52,121 @@ class _RequestDetailsState extends State<RequestDetails> {
                       fontSize: 25,
                     ))),
             requesterCard(globals.users[request["passengerId"]]),
-            Text("Estimated Time Added to Trip: " + timeAddedToRoute),
-            Text("Estimated Distance Added to Trip: " + distanceAddedToRoute),
+            Text(" "),
             Text("New Route with ${request["passengerDestination"]}:"),
             MapWidget(newTrip),
+            Text("Estimated Time Added to Trip: " + timeAddedToRoute),
+            Text("Estimated Distance Added to Trip: " + distanceAddedToRoute),
+            messageButton(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                acceptButton(),
+                rejectButton()
+              ],
+            ),
           ]),
         ));
   }
 
   Widget requesterCard(dynamic user) {
     return Card(
-      child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-        Row(
-          children: [
-            Text("  "),
-            CircleAvatar(
-              backgroundImage: AssetImage(user["image"]),
-              radius: 20.0,
+      child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundImage: AssetImage(user["image"]),
+                  ),
+                  title: Text(user["name"],
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.blue,
+                        fontWeight: FontWeight.w600,
+                      )),
+                  subtitle: Text("Passenger"),
+                )
+                ),
+                TextButton(onPressed: () {}, child: Text("View Profile"))
+              ],
             ),
-            Text("  "),
-            Column(
-              children: [Text(user["name"]), Text("(Passenger)")],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                    child: ListTile(
+                      title: Center(
+                        child: Text(newTrip["startLocation"],
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w600,
+                            )
+                        ),
+                      ),
+                      subtitle: Center(
+                        child: Text(newTrip["departureDateTime"]),
+                      ),
+                    )
+                ),
+                SizedBox(
+                  width: 35,
+                  child: ListTile(
+                    title: Icon(Icons.arrow_forward_rounded, color: Colors.green,)
+                  ),
+                ),
+                Expanded(
+                    child: ListTile(
+                      title: Center(
+                        child: Text(request["passengerDestination"],
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w600,
+                            )
+                        ),
+                      ),
+                      subtitle: Center(
+                        child: Text(newTrip["arrivalDateTime"]),
+                      ),
+                    )
+                ),
+              ],
             ),
-            Spacer(),
-            TextButton(onPressed: () {}, child: Text("View Profile"))
-          ],
-        ),
-      ]),
+          ]
+      ),
+    );
+  }
+
+  Widget messageButton() {
+    return ElevatedButton(
+        onPressed: (){},
+        child: Text("Message")
+    );
+  }
+
+  Widget acceptButton() {
+    return ElevatedButton(
+        onPressed: (){},
+        child: Text("Accept"),
+        style: ElevatedButton.styleFrom(
+            primary: Colors.white,
+            onPrimary: Colors.green,
+            side: BorderSide(width: 1.0, color: Colors.green)
+        )
+    );
+  }
+
+  Widget rejectButton() {
+    return ElevatedButton(
+        onPressed: (){},
+        child: Text("Reject"),
+        style: ElevatedButton.styleFrom(
+            primary: Colors.white,
+            onPrimary: Colors.red,
+            side: BorderSide(width: 1.0, color: Colors.red)
+        )
     );
   }
 
