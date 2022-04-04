@@ -66,8 +66,8 @@ class _MyTripsState extends State<MyTrips> {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) =>
-                  TripDetails(trip: trip, addRequestButton: false)),
+              builder: (context) => TripDetails(
+                  trip: trip, tripId: "-1", addRequestButton: false)),
         )
       },
       child: Card(

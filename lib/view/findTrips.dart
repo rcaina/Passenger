@@ -42,14 +42,14 @@ class _FindTripsState extends State<FindTrips> {
           itemCount: trips.length,
           itemBuilder: (context, index) {
             String key = trips.keys.elementAt(index);
-            return TripCard(trips[key]);
+            return TripCard(trips[key], key);
           },
         ),
       ),
     );
   }
 
-  Widget TripCard(trip) {
+  Widget TripCard(trip, key) {
     return GestureDetector(
       onTap: () => {
         Navigator.push(
@@ -57,6 +57,7 @@ class _FindTripsState extends State<FindTrips> {
           MaterialPageRoute(
               builder: (context) => TripDetails(
                     trip: trip,
+                    tripId: key,
                     addRequestButton: true,
                   )),
         )

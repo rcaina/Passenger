@@ -9,20 +9,25 @@ import 'package:passenger/view/requestPopUp.dart';
 
 class TripDetails extends StatefulWidget {
   const TripDetails(
-      {Key? key, required this.trip, required this.addRequestButton})
+      {Key? key,
+      required this.trip,
+      required this.tripId,
+      required this.addRequestButton})
       : super(key: key);
   final dynamic trip;
+  final String tripId;
   final bool addRequestButton;
 
   @override
   _TripDetailsState createState() =>
-      _TripDetailsState(this.trip, this.addRequestButton);
+      _TripDetailsState(this.trip, this.tripId, this.addRequestButton);
 }
 
 class _TripDetailsState extends State<TripDetails> {
-  _TripDetailsState(this.trip, this.addRequestButton);
+  _TripDetailsState(this.trip, this.tripId, this.addRequestButton);
 
   dynamic trip;
+  String tripId;
   bool addRequestButton;
   final _formKey = GlobalKey<FormState>();
   final LatLng _center = const LatLng(45.521563, -122.677433);
@@ -101,7 +106,8 @@ class _TripDetailsState extends State<TripDetails> {
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (BuildContext context) => RequestPopUp(),
+                builder: (BuildContext context) => RequestPopUp(
+                    tripId: tripId, cost: '${trip["passengerCost"]}'),
               );
             },
           )

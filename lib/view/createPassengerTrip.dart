@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:passenger/view/navigation.dart';
+import 'package:passenger/globals.dart' as globals;
 
 class CreatePassengerTrip extends StatefulWidget {
   const CreatePassengerTrip({Key? key}) : super(key: key);
@@ -108,6 +109,7 @@ class _CreatePassengerTripState extends State<CreatePassengerTrip> {
               style: TextStyle(color: Colors.white, fontSize: 18)),
           color: Colors.blue,
           onPressed: () {
+            globals.destination = destinationController.text;
             Map<String, dynamic> desiredTrip = {
               'startLocation': startLocationController.text,
               'destination': destinationController.text,

@@ -1,16 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:passenger/view/profile.dart';
-import 'package:settings_ui/settings_ui.dart';
+import 'package:passenger/globals.dart' as globals;
+import 'package:passenger/view/findTrips.dart';
+import 'package:passenger/view/navigation.dart';
+import 'package:uuid/uuid.dart';
 
 class RequestPopUp extends StatefulWidget {
-  const RequestPopUp({Key? key}) : super(key: key);
+  const RequestPopUp({Key? key, required this.tripId, required this.cost})
+      : super(key: key);
+  final String tripId;
+  final String cost;
   @override
-  _RequestPopUpState createState() => _RequestPopUpState();
+  _RequestPopUpState createState() =>
+      _RequestPopUpState(this.tripId, this.cost);
 }
 
 class _RequestPopUpState extends State<RequestPopUp> {
+  _RequestPopUpState(this.tripId, this.cost);
+  String tripId;
+  String cost;
   int group1 = 1;
   int group2 = 1;
+  String message = "";
+  bool _isLoading = true;
+  bool _enabled = false;
+
+  final TextEditingController _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,20 +77,10 @@ class _RequestPopUpState extends State<RequestPopUp> {
                           'No',
                           style: TextStyle(fontSize: 15.0),
                         ),
-                      ]),
-                      Row(children: <Widget>[
-                        Radio<int>(
-                            value: 3,
-                            groupValue: group1,
-                            onChanged: (value) {
-                              setState(() {
-                                group1 = value!;
-                              });
-                            }),
                         Text(
-                          'Other',
-                          style: TextStyle(fontSize: 15.0),
-                        ),
+                          "   (Please specify amount below)",
+                          style: TextStyle(fontSize: 10.0),
+                        )
                       ]),
                     ],
                   ),
@@ -124,7 +129,44 @@ class _RequestPopUpState extends State<RequestPopUp> {
         actions: <Widget>[
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              !_enabled ? null : () => setState(() => _isLoading = true);
+
+              if (group1 == 2) {
+                cost = "0.00";
+              }
+              Map<String, dynamic> request = {
+                "passengerId": globals.currentUserId.toString(),
+                "tripId": tripId,
+                "passengerDestination": globals.destination,
+                "message": message,
+                "passengerContribution": double.parse(cost),
+                "status": "requested", // requested, confirmed, or denied
+                "read": false,
+              };
+              globals.requests.addAll({Uuid().v4(): request});
+              print("Requests: " + globals.requests.toString());
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Request"),
+                    content: Text("Your request was sent succesfully"),
+                    actions: [
+                      TextButton(
+                        child: Text("OK"),
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Navigation()),
+                            (route) => false,
+                          );
+                        },
+                      )
+                    ],
+                  );
+                },
+              );
             },
             child: const Text('Request'),
           ),
@@ -140,9 +182,25 @@ class _RequestPopUpState extends State<RequestPopUp> {
   }
 
   Widget inputTextBox(label) {
+    _controller.addListener(() {
+      // you need to add listener like this
+      setState(() {
+        if (_controller.text.isNotEmpty) {
+          _enabled = true;
+        } else {
+          _enabled = false;
+        }
+      });
+    });
+
     return Padding(
       padding: const EdgeInsets.all(0.0),
       child: TextFormField(
+        onChanged: (value) {
+          setState(() {
+            message = value;
+          });
+        },
         maxLines: 5,
         decoration: InputDecoration(
           labelText: "Optional Message",
