@@ -32,10 +32,11 @@ class _NotificationsState extends State<Notifications> {
 
   Widget notificationCard(dynamic notification) {
     var trip = globals.trips[notification["tripId"]];
+    var request = globals.requests[notification["requestId"]];
     return GestureDetector(
       onTap: () => {
         if(notification["notificationType"] == "request") {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => RequestDetails()))
+          Navigator.push(context, MaterialPageRoute(builder: (context) => RequestDetails(request: request)))
         }
         else {
           Navigator.push(context, MaterialPageRoute(builder: (context) => TripDetails(trip: trip, addRequestButton: false)))
@@ -110,6 +111,7 @@ class _NotificationsState extends State<Notifications> {
 
         notifications.putIfAbsent(request.key, () => {
           "notificationType": "request",
+          "requestId": request.key,
           "userName": user["name"],
           "userImage": user["image"],
           "message": " has requested to join your ride.",
@@ -141,6 +143,7 @@ class _NotificationsState extends State<Notifications> {
 
         notifications.putIfAbsent(response.value["requestId"], () => {
           "notificationType": "response",
+          "requestId": response.value["requestId"],
           "userName": user["name"],
           "userImage": user["image"],
           "message": message,
