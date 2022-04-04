@@ -20,7 +20,7 @@ class _RequestPopUpState extends State<RequestPopUp> {
       body: AlertDialog(
         // title: const Text('Request Information'),
         content: Padding(
-            padding: const EdgeInsets.all(25),
+            padding: const EdgeInsets.all(0),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
@@ -140,27 +140,17 @@ class _RequestPopUpState extends State<RequestPopUp> {
   }
 
   Widget inputTextBox(label) {
-    return Container(
-        padding: const EdgeInsets.all(0.0),
-        color: Colors.white,
-        child: Container(
-          child: Center(
-              child: Column(children: [
-            Padding(padding: EdgeInsets.only(top: 0.0)),
-            TextFormField(
-              maxLines: 5,
-              decoration: InputDecoration(
-                labelText: "Optional Message",
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(),
-                ),
-              ),
-              // style: TextStyle(
-              //   fontFamily: "Poppins",
-              // ),
-            ),
-          ])),
-        ));
+    return Padding(
+      padding: const EdgeInsets.all(0.0),
+      child: TextFormField(
+        maxLines: 5,
+        decoration: InputDecoration(
+          labelText: "Optional Message",
+          border: OutlineInputBorder(
+            borderSide: BorderSide(),
+          ),
+        ),
+      ),
+    );
   }
 }
