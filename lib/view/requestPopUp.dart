@@ -144,6 +144,14 @@ class _RequestPopUpState extends State<RequestPopUp> {
                 "read": false,
               };
               globals.requests.addAll({Uuid().v4(): request});
+
+              dynamic passenger = {
+                "userId": globals.currentUserId,
+                "status": "requested", // requested | confirmed
+                "destination": globals.destination
+              };
+              globals.trips[tripId]["passengers"].add(passenger);
+
               print("Requests: " + globals.requests.toString());
               showDialog(
                 context: context,
