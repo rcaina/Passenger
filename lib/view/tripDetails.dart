@@ -5,7 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:passenger/globals.dart' as globals;
 import 'package:passenger/view/mapWidget.dart';
 import 'package:passenger/view/profile.dart';
-import 'package:passenger/view/requestDetails.dart';
+import 'package:passenger/view/requestPopUp.dart';
 
 class TripDetails extends StatefulWidget {
   const TripDetails(
@@ -31,6 +31,7 @@ class _TripDetailsState extends State<TripDetails> {
     mapController = controller;
   }
 
+  int group = 0;
   bool edit = true;
 
   @override
@@ -68,9 +69,9 @@ class _TripDetailsState extends State<TripDetails> {
               inputText("Arrival Date/Time", trip["arrivalDateTime"]),
               inputText("Seats Available", '${trip["availableSeats"]}'),
               listPassengers("Passengers", trip["passengers"]),
-              updateButton(),
               MapWidget(trip),
               requestButton(),
+              updateButton()
             ],
           ),
         ),
@@ -79,31 +80,29 @@ class _TripDetailsState extends State<TripDetails> {
   }
 
   Widget updateButton() {
-    return addRequestButton
-        ? RaisedButton(
-            child: const Text('Request',
-                style: TextStyle(color: Colors.white, fontSize: 18)),
-            color: Colors.blue,
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => RequestDetails()),
-              );
-            },
-          )
-        : Container();
-  }
-
-  Widget requestButton() {
     return !edit
         ? RaisedButton(
             child: const Text('Update',
                 style: TextStyle(color: Colors.white, fontSize: 18)),
             color: Colors.blue,
             onPressed: () {
-              setState(() {
-                edit = !edit;
-              });
+              setState(() {});
+            },
+          )
+        : Container();
+  }
+
+  Widget requestButton() {
+    return addRequestButton
+        ? RaisedButton(
+            child: const Text('Request',
+                style: TextStyle(color: Colors.white, fontSize: 18)),
+            color: Colors.blue,
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => RequestPopUp(),
+              );
             },
           )
         : Container();
