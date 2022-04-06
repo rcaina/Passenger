@@ -38,97 +38,187 @@ class _RequestDetailsState extends State<RequestDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Request Details"),
-        ),
-        body: Center(
-          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: <
-              Widget>[
-            Text(""),
-            Title(
-                color: Colors.black,
-                child: Text("Requester",
-                    style: TextStyle(
-                      fontFamily: 'SourceSansPro',
-                      fontSize: 25,
-                    ))),
-            requesterCard(globals.users[request["passengerId"]]),
-            Text(" "),
-            Text("New Route with ${request["passengerDestination"]}:"),
-            MapWidget(newTrip),
-            Text("Estimated Time Added to Trip: " + timeAddedToRoute),
-            Text("Estimated Distance Added to Trip: " + distanceAddedToRoute),
-            messageButton(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [acceptButton(), rejectButton()],
+      appBar: AppBar(
+        title: const Text("Request Details"),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Text(""),
+          Title(
+            color: Colors.black,
+            child: Text(
+              "Requester",
+              style: TextStyle(
+                fontFamily: 'SourceSansPro',
+                fontSize: 25,
+              ),
             ),
-          ]),
-        ));
+          ),
+          requesterCard(globals.users[request["passengerId"]]),
+          messageButton(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [acceptButton(), rejectButton()],
+          ),
+        ],
+      ),
+    );
   }
 
   Widget requesterCard(dynamic user) {
     return Card(
-      child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-                child: ListTile(
-              leading: CircleAvatar(
-                backgroundImage: AssetImage(user["image"]),
-              ),
-              title: Text(user["name"],
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.blue,
-                    fontWeight: FontWeight.w600,
-                  )),
-              subtitle: Text("Passenger"),
-            )),
-            TextButton(onPressed: () {}, child: Text("View Profile"))
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Expanded(
-                child: ListTile(
-              title: Center(
-                child: Text(newTrip["startLocation"],
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w600,
-                    )),
-              ),
-              subtitle: Center(
-                child: Text(newTrip["departureDateTime"]),
-              ),
-            )),
-            SizedBox(
-              width: 35,
-              child: ListTile(
-                  title: Icon(
-                Icons.arrow_forward_rounded,
-                color: Colors.green,
-              )),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      child: Padding(
+        padding: EdgeInsets.only(left: 10, right: 10),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage: AssetImage(user["image"]),
+                    ),
+                    title: Text(user["name"],
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.blue,
+                          fontWeight: FontWeight.w600,
+                        )),
+                    subtitle: Text("Passenger"),
+                  ),
+                ),
+                TextButton(onPressed: () {}, child: Text("View Profile"))
+              ],
             ),
-            Expanded(
-                child: ListTile(
-              title: Center(
-                child: Text(request["passengerDestination"],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                    child: ListTile(
+                  title: Center(
+                    child: Text(newTrip["startLocation"],
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w600,
+                        )),
+                  ),
+                  subtitle: Center(
+                    child: Text(newTrip["departureDateTime"]),
+                  ),
+                )),
+                SizedBox(
+                  width: 35,
+                  child: ListTile(
+                      title: Icon(
+                    Icons.arrow_forward_rounded,
+                    color: Colors.green,
+                  )),
+                ),
+                Expanded(
+                    child: ListTile(
+                  title: Center(
+                    child: Text(request["passengerDestination"],
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w600,
+                        )),
+                  ),
+                  subtitle: Center(
+                    child: Text(newTrip["arrivalDateTime"]),
+                  ),
+                )),
+              ],
+            ),
+            const Divider(),
+            Padding(
+              padding: EdgeInsets.only(left: 20, right: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Added Time: ",
                     style: TextStyle(
-                      fontSize: 14.0,
+                      fontSize: 18.0,
                       fontWeight: FontWeight.w600,
-                    )),
+                    ),
+                  ),
+                  Text(
+                    timeAddedToRoute,
+                    style: TextStyle(
+                      fontSize: 18.0,
+                    ),
+                  ),
+                ],
               ),
-              subtitle: Center(
-                child: Text(newTrip["arrivalDateTime"]),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 20, right: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Added Distance: ",
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Text(
+                    distanceAddedToRoute,
+                    style: TextStyle(
+                      fontSize: 18.0,
+                    ),
+                  ),
+                ],
               ),
-            )),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 20, right: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Contribution: ",
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Text(
+                    "\$${request["passengerContribution"].toStringAsFixed(2)}",
+                    style: TextStyle(
+                      fontSize: 18.0,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(),
+            Padding(
+              padding: EdgeInsets.only(top: 10, bottom: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "New Route with ${request["passengerDestination"]}:",
+                    style: TextStyle(
+                      fontSize: 18.0,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            MapWidget(newTrip),
+            SizedBox(height: 10)
           ],
         ),
-      ]),
+      ),
     );
   }
 
@@ -184,8 +274,8 @@ class _RequestDetailsState extends State<RequestDetails> {
         int hours = (durationAdded / 3600).floor();
         int minutes = ((durationAdded % 3600) / 60).round();
 
-        timeAddedToRoute =
-            hours.toString() + " hrs, " + minutes.toString() + " mins";
+        timeAddedToRoute = hours > 0 ? hours.toString() + " hrs, " : "";
+        timeAddedToRoute += minutes.toString() + " mins";
 
         const kmPerMi = 1609.34;
         distanceAddedToRoute =

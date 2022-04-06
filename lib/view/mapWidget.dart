@@ -48,7 +48,7 @@ class _MapWidgetState extends State<MapWidget> {
 
     return Container(
       height: 220,
-      width: width * 0.75,
+      width: width,
       child: GoogleMap(
         mapType: MapType.normal,
         initialCameraPosition: initialLocation,
