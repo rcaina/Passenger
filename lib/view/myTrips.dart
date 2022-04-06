@@ -77,23 +77,23 @@ class _MyTripsState extends State<MyTrips> {
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Expanded(
                 child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: AssetImage(
-                          globals.users[trip["driverUserId"]]["image"]),
-                    ),
-                    title:
-                        Text('${globals.users[trip["driverUserId"]]["name"]}',
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              color: Colors.blue,
-                              fontWeight: FontWeight.w600,
-                            )),
-                    subtitle: Text('Driver'),
-                    trailing: statusButton(
-                        globals.users[globals.currentUserId]["name"],
-                        '${globals.users[trip["driverUserId"]]["name"]}',
-                        trip['passengers'][int.parse(globals.currentUserId)]
-                            ['status'])),
+                  leading: CircleAvatar(
+                    backgroundImage: AssetImage(
+                        globals.users[trip["driverUserId"]]["image"]),
+                  ),
+                  title: Text('${globals.users[trip["driverUserId"]]["name"]}',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.blue,
+                        fontWeight: FontWeight.w600,
+                      )),
+                  subtitle: Text('Driver'),
+                  // trailing: statusButton(
+                  //     globals.users[globals.currentUserId]["name"],
+                  //     '${globals.users[trip["driverUserId"]]["name"]}',
+                  //     trip['passengers'][int.parse(globals.currentUserId)]
+                  //         ['status'])
+                ),
               ),
             ]),
             Row(

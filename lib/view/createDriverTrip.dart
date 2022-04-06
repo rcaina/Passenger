@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:passenger/network/server_facade.dart';
 import 'package:uuid/uuid.dart';
 import 'package:date_time_picker/date_time_picker.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:passenger/view/navigation.dart';
 import 'package:passenger/globals.dart' as globals;
 
@@ -26,7 +28,6 @@ class _CreateDriverTripState extends State<CreateDriverTrip> {
   final departureDateTimeController = TextEditingController();
   final availableSeatsController = TextEditingController();
   final passengerCostController = TextEditingController();
-  final _controller = TextEditingController();
 
   final Map<String, int> carTypesMPG = {"Sedan": 30, "SUV": 26, "Truck": 22};
   String? carType;
@@ -50,12 +51,11 @@ class _CreateDriverTripState extends State<CreateDriverTrip> {
                   textDescription,
                   inputLocation("Start Location", startLocationController),
                   inputLocation("Destination", destinationController),
-                  inputDateTime(
-                      "Departure Date/Time", departureDateTimeController),
+                  inputDate("Departure Date", departureDateTimeController),
                   inputNumber("Available Seats", availableSeatsController),
                   dropdownCarType(),
                   estimateTripCostButton(),
-                  inputNumber("Passenger Cost", passengerCostController),
+                  inputDollarAmount("Passenger Cost", passengerCostController),
                   buttonCreateTrip(context)
                 ],
               ),
@@ -105,21 +105,21 @@ class _CreateDriverTripState extends State<CreateDriverTrip> {
     );
   }
 
-  Widget inputDateTime(String label, controller) {
+  Widget inputDate(String label, controller) {
     return Padding(
       padding: EdgeInsets.only(bottom: 15),
       child: DateTimePicker(
-        type: DateTimePickerType.dateTime,
+        type: DateTimePickerType.date,
         initialValue: '',
-        firstDate: DateTime(2000),
+        firstDate: DateTime(2022, DateTime.now().month, DateTime.now().day),
         lastDate: DateTime(2100),
         dateLabelText: label,
-        onChanged: (val) => {controller.text = val},
-        validator: (val) {
-          print(val);
-          return null;
+        onChanged: (val) => {
+          controller.text = DateFormat('M/d/yy').format(DateTime.parse(val))
         },
-        onSaved: (val) => {controller.text = val},
+        onSaved: (val) => {
+          controller.text = DateFormat('M/d/yy').format(DateTime.parse(val!))
+        },
       ),
     );
   }
@@ -263,7 +263,7 @@ class _CreateDriverTripState extends State<CreateDriverTrip> {
               'startLocation': startLocationController.text,
               'destination': destinationController.text,
               'departureDateTime': departureDateTimeController.text,
-              'arivalDateTime': departureDateTimeController.text,
+              'arrivalDateTime': departureDateTimeController.text,
               'availableSeats': availableSeatsController.text,
               'passengerCost': passengerCostController.text,
               'passengers': []
