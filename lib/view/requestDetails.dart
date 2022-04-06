@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:passenger/globals.dart' as globals;
 import 'package:passenger/network/server_facade.dart';
 import 'package:passenger/view/mapWidget.dart';
+import 'package:passenger/view/profile.dart';
 
 class RequestDetails extends StatefulWidget {
   const RequestDetails({Key? key, required this.request}) : super(key: key);
@@ -55,7 +56,7 @@ class _RequestDetailsState extends State<RequestDetails> {
               ),
             ),
           ),
-          requesterCard(globals.users[request["passengerId"]]),
+          requesterCard(request["passengerId"]),
           messageButton(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -66,7 +67,8 @@ class _RequestDetailsState extends State<RequestDetails> {
     );
   }
 
-  Widget requesterCard(dynamic user) {
+  Widget requesterCard(String userId) {
+    dynamic user = globals.users[userId];
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
@@ -93,7 +95,21 @@ class _RequestDetailsState extends State<RequestDetails> {
                     subtitle: Text("Passenger"),
                   ),
                 ),
-                TextButton(onPressed: () {}, child: Text("View Profile"))
+                SizedBox(
+                  height: 30,
+                  width: 100,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Profile(userId: userId,))
+                      );
+                    },
+                    child: Text("View Profile"),
+                    style: TextButton.styleFrom(primary: Colors.blue, side: BorderSide(width: 1.0, color: Colors.blue)),
+                  ),
+                )
+
               ],
             ),
             Row(
