@@ -1,10 +1,7 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:passenger/network/server_facade.dart';
 import 'package:uuid/uuid.dart';
 import 'package:date_time_picker/date_time_picker.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:passenger/view/navigation.dart';
 import 'package:passenger/globals.dart' as globals;
@@ -268,8 +265,10 @@ class _CreateDriverTripState extends State<CreateDriverTrip> {
               'passengerCost': passengerCostController.text,
               'passengers': []
             };
-            globals.trips.addAll({Uuid().v4(): trip});
-            print("Trips: " + globals.trips.toString());
+            String tripId = Uuid().v4();
+            globals.trips.addAll({tripId: trip});
+
+            addDummyRequests(tripId);
 
             Navigator.pushAndRemoveUntil(
               context,
@@ -280,5 +279,17 @@ class _CreateDriverTripState extends State<CreateDriverTrip> {
         ),
       ),
     );
+  }
+
+  addDummyRequests(tripId) {
+    for (dynamic request in globals.requestsToJoinAustinTrip.values) {
+      request["tripId"] = tripId;
+      globals.trips[tripId]["passengers"].add({
+        "userId": request["passengerId"],
+        "status": "requested",
+        "destination": request["passengerDestination"]
+      });
+    }
+    globals.requests.addAll(globals.requestsToJoinAustinTrip);
   }
 }

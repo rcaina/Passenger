@@ -137,3 +137,34 @@ Map<String, dynamic> requestResponses = {
 };
 
 String destination = "";
+
+// Dummy request that can be added during demo
+Map<String, dynamic> requestsToJoinAustinTrip = {
+  "joinAustinTrip-0": {
+    "passengerId": "1",
+    "tripId": "0",
+    "passengerDestination": "Dallas, TX",
+    "message": "Hello. Id like to join you.",
+    "passengerContribution": 50.50,
+    "status": "requested", // requested, confirmed, or denied
+    "read": false,
+  },
+  "joinAustinTrip-1": {
+    "passengerId": "2",
+    "tripId": "0",
+    "passengerDestination": "Amarillo, TX",
+    "message": "Hello. Can you take me to Amarillo?",
+    "passengerContribution": 50.00,
+    "status": "requested", // requested, confirmed, or denied
+    "read": false,
+  },
+  "joinAustinTrip-2": {
+    "passengerId": "3",
+    "tripId": "0",
+    "passengerDestination": "Santa Fe, NM",
+    "message": "Hello. Can you take me to Santa Fe?",
+    "passengerContribution": 50.00,
+    "status": "requested", // requested, confirmed, or denied
+    "read": false,
+  }
+};
