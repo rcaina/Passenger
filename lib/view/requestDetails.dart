@@ -5,7 +5,9 @@ import 'package:passenger/globals.dart' as globals;
 import 'package:passenger/network/server_facade.dart';
 import 'package:passenger/view/mapWidget.dart';
 import 'package:passenger/view/profile.dart';
+import 'package:passenger/view/tripDetails.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:uuid/uuid.dart';
 
 class RequestDetails extends StatefulWidget {
   const RequestDetails({Key? key, required this.request}) : super(key: key);
@@ -254,7 +256,41 @@ class _RequestDetailsState extends State<RequestDetails> {
 
   Widget acceptButton() {
     return ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          var requestId = globals.requests.keys.firstWhere(
+                  (k) => globals.requests[k] == request, orElse: () => "");
+
+          if(requestId == "") {
+
+          }
+          else {
+            Map<String, dynamic> requestResponse = {
+              "requestId": requestId,
+              "addedToTrip": true,
+              "read": false,
+            };
+
+            String requestResponseId = Uuid().v4();
+            globals.requests.addAll({requestResponseId: requestResponse});
+
+            var passengerId = request["passengerId"];
+
+            var passengerIndex = globals.trips[request["tripId"]]["passengers"].indexWhere(
+                (passenger) => passenger["userId"] == passengerId
+            );
+
+            globals.trips[request["tripId"]]["passengers"][passengerIndex].update("status",
+                (status) => "confirmed"
+            );
+          }
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => TripDetails(
+                      trip: globals.trips[request["tripId"]],
+                      tripId: "-1",
+                      addRequestButton: false)));
+        },
         child: Text("Accept"),
         style: ElevatedButton.styleFrom(
             primary: Colors.white,
@@ -264,7 +300,37 @@ class _RequestDetailsState extends State<RequestDetails> {
 
   Widget rejectButton() {
     return ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          var requestId = globals.requests.keys.firstWhere(
+                  (k) => globals.requests[k] == request, orElse: () => "");
+
+          if(requestId == "") {
+
+          }
+          else {
+            Map<String, dynamic> requestResponse = {
+              "requestId": requestId,
+              "addedToTrip": true,
+              "read": false,
+            };
+
+            String requestResponseId = Uuid().v4();
+            globals.requests.addAll({requestResponseId: requestResponse});
+
+            var passengerId = request["passengerId"];
+
+            globals.trips[request["tripId"]]["passengers"].removeWhere(
+                    (passenger) => passenger["userId"] == passengerId
+            );
+          }
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => TripDetails(
+                      trip: globals.trips[request["tripId"]],
+                      tripId: "-1",
+                      addRequestButton: false)));
+        },
         child: Text("Reject"),
         style: ElevatedButton.styleFrom(
             primary: Colors.white,
