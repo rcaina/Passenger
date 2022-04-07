@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:passenger/globals.dart' as globals;
+import 'package:url_launcher/url_launcher.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key, this.userId = "0"}) : super(key: key);
@@ -54,7 +55,9 @@ class _ProfileState extends State<Profile> {
                           subtitle: Text(globals.users[userId]["phone"]),
                           trailing: ElevatedButton(
                             child: Text("Message"),
-                            onPressed: () {},
+                            onPressed: () {
+                              _launchMessages(globals.users[userId]["phone"]);
+                            },
                           ),
                         ),
                         ListTile(
@@ -75,5 +78,13 @@ class _ProfileState extends State<Profile> {
         ),
       ),
     );
+  }
+  void _launchMessages(String phoneNumber) async {
+    var uri = 'sms:+91888888888';
+    if (await canLaunch(uri)) {
+      await launch(uri);
+    } else {
+      throw 'Could not launch messages for phone number: $uri';
+    }
   }
 }

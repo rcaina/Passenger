@@ -55,7 +55,6 @@ class _NotificationsState extends State<Notifications> {
                 }
             },
         child: Card(
-            elevation: 5,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
