@@ -258,12 +258,11 @@ class _RequestDetailsState extends State<RequestDetails> {
     return ElevatedButton(
         onPressed: () {
           var requestId = globals.requests.keys.firstWhere(
-                  (k) => globals.requests[k] == request, orElse: () => "");
+              (k) => globals.requests[k] == request,
+              orElse: () => "");
 
-          if(requestId == "") {
-
-          }
-          else {
+          if (requestId == "") {
+          } else {
             Map<String, dynamic> requestResponse = {
               "requestId": requestId,
               "addedToTrip": true,
@@ -271,17 +270,17 @@ class _RequestDetailsState extends State<RequestDetails> {
             };
 
             String requestResponseId = Uuid().v4();
-            globals.requests.addAll({requestResponseId: requestResponse});
+            globals.requestResponses
+                .addAll({requestResponseId: requestResponse});
 
             var passengerId = request["passengerId"];
 
-            var passengerIndex = globals.trips[request["tripId"]]["passengers"].indexWhere(
-                (passenger) => passenger["userId"] == passengerId
-            );
+            var passengerIndex = globals.trips[request["tripId"]]["passengers"]
+                .indexWhere((passenger) => passenger["userId"] == passengerId);
 
-            globals.trips[request["tripId"]]["passengers"][passengerIndex].update("status",
-                (status) => "confirmed"
-            );
+            globals.trips[request["tripId"]]["passengers"][passengerIndex]
+                .update("status", (status) => "confirmed");
+            globals.trips[request["tripId"]]["availableSeats"]--;
           }
           Navigator.push(
               context,
@@ -302,12 +301,11 @@ class _RequestDetailsState extends State<RequestDetails> {
     return ElevatedButton(
         onPressed: () {
           var requestId = globals.requests.keys.firstWhere(
-                  (k) => globals.requests[k] == request, orElse: () => "");
+              (k) => globals.requests[k] == request,
+              orElse: () => "");
 
-          if(requestId == "") {
-
-          }
-          else {
+          if (requestId == "") {
+          } else {
             Map<String, dynamic> requestResponse = {
               "requestId": requestId,
               "addedToTrip": true,
@@ -315,13 +313,13 @@ class _RequestDetailsState extends State<RequestDetails> {
             };
 
             String requestResponseId = Uuid().v4();
-            globals.requests.addAll({requestResponseId: requestResponse});
+            globals.requestResponses
+                .addAll({requestResponseId: requestResponse});
 
             var passengerId = request["passengerId"];
 
-            globals.trips[request["tripId"]]["passengers"].removeWhere(
-                    (passenger) => passenger["userId"] == passengerId
-            );
+            globals.trips[request["tripId"]]["passengers"]
+                .removeWhere((passenger) => passenger["userId"] == passengerId);
           }
           Navigator.push(
               context,
