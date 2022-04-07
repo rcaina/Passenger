@@ -296,7 +296,35 @@ class _RequestDetailsState extends State<RequestDetails> {
   Widget rejectButton() {
     return ElevatedButton(
         onPressed: () {
+          var requestId = globals.requests.keys.firstWhere(
+                  (k) => globals.requests[k] == request, orElse: () => "");
 
+          if(requestId == "") {
+
+          }
+          else {
+            Map<String, dynamic> requestResponse = {
+              "requestId": requestId,
+              "addedToTrip": true,
+              "read": false,
+            };
+
+            String requestResponseId = Uuid().v4();
+            globals.requests.addAll({requestResponseId: requestResponse});
+
+            var passengerId = request["passengerId"];
+
+            globals.trips[request["tripId"]]["passengers"].removeWhere(
+                    (passenger) => passenger["userId"] == passengerId
+            );
+          }
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => TripDetails(
+                      trip: globals.trips[request["tripId"]],
+                      tripId: "-1",
+                      addRequestButton: false)));
         },
         child: Text("Reject"),
         style: ElevatedButton.styleFrom(
