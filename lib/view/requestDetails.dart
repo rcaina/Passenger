@@ -5,6 +5,7 @@ import 'package:passenger/globals.dart' as globals;
 import 'package:passenger/network/server_facade.dart';
 import 'package:passenger/view/mapWidget.dart';
 import 'package:passenger/view/profile.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RequestDetails extends StatefulWidget {
   const RequestDetails({Key? key, required this.request}) : super(key: key);
@@ -239,7 +240,11 @@ class _RequestDetailsState extends State<RequestDetails> {
   }
 
   Widget messageButton() {
-    return ElevatedButton(onPressed: () {}, child: Text("Message"));
+    return ElevatedButton(onPressed: () {
+      String phoneNumber = globals.users[request["passengerId"]]["phone"];
+      print(phoneNumber);
+      _launchMessages(phoneNumber);
+    }, child: Text("Message"));
   }
 
   Widget acceptButton() {
@@ -309,5 +314,14 @@ class _RequestDetailsState extends State<RequestDetails> {
       }
     }
     return waypoints;
+  }
+
+  void _launchMessages(String phoneNumber) async {
+    var uri = 'sms:+91888888888';
+    if (await canLaunch(uri)) {
+      await launch(uri);
+    } else {
+      throw 'Could not launch messages for phone number: $uri';
+    }
   }
 }
