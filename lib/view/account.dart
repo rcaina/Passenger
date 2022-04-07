@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:passenger/view/profile.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'package:passenger/globals.dart' as globals;
 
 class Account extends StatefulWidget {
   const Account({Key? key}) : super(key: key);
@@ -26,7 +27,9 @@ class _AccountState extends State<Account> {
                 onPressed: (BuildContext context) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Profile()),
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            Profile(userId: globals.currentUserId)),
                   );
                 },
               ),

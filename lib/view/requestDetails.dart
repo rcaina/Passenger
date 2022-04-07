@@ -103,14 +103,17 @@ class _RequestDetailsState extends State<RequestDetails> {
                     onPressed: () {
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => Profile(userId: userId,))
-                      );
+                          MaterialPageRoute(
+                              builder: (context) => Profile(
+                                    userId: userId,
+                                  )));
                     },
                     child: Text("View Profile"),
-                    style: TextButton.styleFrom(primary: Colors.blue, side: BorderSide(width: 1.0, color: Colors.blue)),
+                    style: TextButton.styleFrom(
+                        primary: Colors.blue,
+                        side: BorderSide(width: 1.0, color: Colors.blue)),
                   ),
                 )
-
               ],
             ),
             Row(
@@ -240,11 +243,13 @@ class _RequestDetailsState extends State<RequestDetails> {
   }
 
   Widget messageButton() {
-    return ElevatedButton(onPressed: () {
-      String phoneNumber = globals.users[request["passengerId"]]["phone"];
-      print(phoneNumber);
-      _launchMessages(phoneNumber);
-    }, child: Text("Message"));
+    return ElevatedButton(
+        onPressed: () {
+          String phoneNumber = globals.users[request["passengerId"]]["phone"];
+          print(phoneNumber);
+          _launchMessages(phoneNumber);
+        },
+        child: Text("Message"));
   }
 
   Widget acceptButton() {
