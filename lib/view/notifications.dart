@@ -56,60 +56,62 @@ class _NotificationsState extends State<Notifications> {
             },
         child: Card(
             child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: AssetImage(notification["userImage"]),
-                      radius: 20.0,
-                    ),
-                    title: RichText(
-                      text: TextSpan(
-                        // Note: Styles for TextSpans must be explicitly defined.
-                        // Child text spans will inherit styles from parent
-                        style: const TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.black,
-                        ),
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: notification["userName"],
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold)),
-                          TextSpan(text: notification["message"]),
-                        ],
-                      ),
-                    )),
-                Row(
-                  children: [Text("")],
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ListTile(
+                leading: CircleAvatar(
+                  backgroundImage: AssetImage(notification["userImage"]),
+                  radius: 20.0,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                title: RichText(
+                  text: TextSpan(
+                    // Note: Styles for TextSpans must be explicitly defined.
+                    // Child text spans will inherit styles from parent
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.black,
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: notification["userName"],
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                      TextSpan(text: notification["message"]),
+                    ],
+                  ),
+                )),
+            Row(
+              children: [Text("")],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Column(
                   children: [
-                    Column(
-                      children: [
-                        Text(notification["startLocation"]),
-                        Text(notification["departureDateTime"]),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Icon(
-                          Icons.arrow_forward,
-                          color: Colors.green,
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Text(notification["destination"]),
-                        Text(notification["arrivalDateTime"]),
-                      ],
+                    Text(notification["startLocation"]),
+                    Text(notification["departureDateTime"]),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Icon(
+                      Icons.arrow_forward,
+                      color: Colors.green,
                     )
                   ],
                 ),
+                Column(
+                  children: [
+                    Text(notification["destination"]),
+                    Text(notification["arrivalDateTime"]),
+                  ],
+                )
               ],
-            )));
+            ),
+            Row(
+              children: [Text("")],
+            ),
+          ],
+        )));
   }
 
   Map<String, dynamic> getNotifications() {

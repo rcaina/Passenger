@@ -70,9 +70,10 @@ class _TripDetailsState extends State<TripDetails> {
                 child: locations(trip["startLocation"], trip["destination"]),
               ),
               inputText("Driver", globals.users[trip["driverUserId"]]["name"]),
-              inputText("Departure Date/Time", trip["departureDateTime"]),
-              inputText("Arrival Date/Time", trip["arrivalDateTime"]),
+              inputText("Departure Date", trip["departureDateTime"]),
+              inputText("Arrival Date", trip["arrivalDateTime"]),
               inputText("Seats Available", '${trip["availableSeats"]}'),
+              inputText("Passenger Cost", '${trip["passengerCost"]}'),
               listPassengers("Passengers", trip["passengers"]),
               MapWidget(trip),
               requestButton(),
@@ -116,10 +117,10 @@ class _TripDetailsState extends State<TripDetails> {
 
   Widget locations(String start, String destination) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.fromLTRB(15, 15, 0, 30),
+          padding: EdgeInsets.fromLTRB(0, 15, 0, 30),
           child: Text(
             start,
             style: TextStyle(
@@ -129,7 +130,7 @@ class _TripDetailsState extends State<TripDetails> {
           ),
         ),
         Container(
-          padding: EdgeInsets.fromLTRB(15, 15, 0, 30),
+          padding: EdgeInsets.fromLTRB(10, 15, 0, 30),
           child: Icon(
             Icons.arrow_right_alt_sharp,
             color: Colors.blue.shade400,

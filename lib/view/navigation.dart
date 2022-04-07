@@ -85,7 +85,6 @@ class _NavigationState extends State<Navigation> {
                     ],
                   )
                 : Icon(Icons.mail_outline),
-            activeIcon: Icon(Icons.mail_outline),
             label: 'Notifications',
           ),
           BottomNavigationBarItem(
