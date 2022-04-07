@@ -4,7 +4,7 @@ String currentUserId = "driver-0";
 
 Map<String, dynamic> trips = {
   "0": {
-    "driverUserId": "driver-0",
+    "driverUserId": "driver-1",
     "startLocation": "BYU, Provo, UT",
     "destination": "Austin, TX",
     "departureDateTime": "4/21/22",
@@ -200,7 +200,7 @@ Map<String, dynamic> requestsToJoinAustinTrip = {
     "read": false,
   },
   "joinAustinTrip-2": {
-    "passengerId": "passenger-3",
+    "passengerId": "passenger-2",
     "tripId": "0",
     "passengerDestination": "Santa Fe, NM",
     "message": "Hello. Can you take me to Santa Fe?",

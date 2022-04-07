@@ -35,7 +35,7 @@ class ServerFacade {
           start +
           "&destination=" +
           destination +
-          "&waypoints=" +
+          "&waypoints=optimize:true|" +
           waypoints +
           "&key=" +
           GOOGLE_MAPS_API_KEY +

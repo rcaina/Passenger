@@ -282,6 +282,7 @@ class _RequestDetailsState extends State<RequestDetails> {
                 .update("status", (status) => "confirmed");
             globals.trips[request["tripId"]]["availableSeats"]--;
           }
+          Navigator.of(context).pop();
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -321,6 +322,7 @@ class _RequestDetailsState extends State<RequestDetails> {
             globals.trips[request["tripId"]]["passengers"]
                 .removeWhere((passenger) => passenger["userId"] == passengerId);
           }
+          Navigator.of(context).pop();
           Navigator.push(
               context,
               MaterialPageRoute(

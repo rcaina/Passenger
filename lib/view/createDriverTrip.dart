@@ -186,7 +186,7 @@ class _CreateDriverTripState extends State<CreateDriverTrip> {
             width: 100, // specific value
             child: RaisedButton(
               child: Text(
-                "Estimate Trip Cost",
+                "Estimate Fuel Cost",
                 style: TextStyle(fontSize: 14),
               ),
               onPressed: () {
@@ -261,7 +261,7 @@ class _CreateDriverTripState extends State<CreateDriverTrip> {
               'destination': destinationController.text,
               'departureDateTime': departureDateTimeController.text,
               'arrivalDateTime': departureDateTimeController.text,
-              'availableSeats': availableSeatsController.text,
+              'availableSeats': int.parse(availableSeatsController.text),
               'passengerCost': passengerCostController.text,
               'passengers': []
             };
