@@ -82,15 +82,17 @@ Map<String, dynamic> users = {
     "name": "Mark Johnson",
     "image": "assets/images/mark.png",
     "phone": "123-456-7890",
-    "about": "I am a junior at BYU studying Computer Science!",
+    "about":
+        "I am a sophomore at BYU studying Computer Science! I love to travel and see lots of new places all around the country",
     "interests": "I like to listen to music and watch movies"
   },
   "driver-1": {
     "name": "Andrew Smith",
     "image": "assets/images/andrew.png",
     "phone": "123-456-7890",
-    "about": "I am a junior at BYU studying Computer Science!",
-    "interests": "I like to hike",
+    "about":
+        "I am a junior at BYU studying Computer Science! I love to travel and see lots of new places around the country",
+    "interests": "Hiking, skiing, swiming, country music",
   },
   "driver-2": {
     "name": "Andrea Blake",
@@ -110,22 +112,25 @@ Map<String, dynamic> users = {
     "name": "Megan Farnsworth",
     "image": "assets/images/megan.png",
     "phone": "801-890-1331",
-    "about": "I like animals",
-    "interests": "Dogs, cats, horses"
+    "about":
+        "I am a freshman at BYU studying User Experience! I enjoy creating art along with talking with people.",
+    "interests": "Drawing, all kinds of music, socializing"
   },
   "passenger-1": {
     "name": "Rick Stanley",
     "image": "assets/images/rick.png",
     "phone": "801-890-1331",
-    "about": "I am a junior at BYU studying Computer Science!",
-    "interests": "Movies, board games, skiing"
+    "about":
+        "I am a junior at BYU studying Computer Science! I love to travel and see lots of new places around the country.",
+    "interests": "Hiking, skiing, swiming, country music",
   },
   "passenger-2": {
     "name": "Tony Harper",
     "image": "assets/images/tony.png",
     "phone": "801-890-1331",
-    "about": "I am a junior at BYU studying Computer Science!",
-    "interests": "Movies, board games, skiing"
+    "about":
+        "I am a junior at BYU studying Data Science! I have seen all the star wars movies 5 times!",
+    "interests": "Movies, board games, pizza, hanging out"
   },
 };
 
@@ -186,7 +191,7 @@ Map<String, dynamic> requestsToJoinAustinTrip = {
     "tripId": "0",
     "passengerDestination": "Dallas, TX",
     "message": "Hello. Id like to join you.",
-    "passengerContribution": 50.50,
+    "passengerContribution": 60,
     "status": "requested", // requested, confirmed, or denied
     "read": false,
   },
@@ -195,7 +200,7 @@ Map<String, dynamic> requestsToJoinAustinTrip = {
     "tripId": "0",
     "passengerDestination": "Amarillo, TX",
     "message": "Hello. Can you take me to Amarillo?",
-    "passengerContribution": 50.00,
+    "passengerContribution": 52,
     "status": "requested", // requested, confirmed, or denied
     "read": false,
   },
@@ -204,7 +209,7 @@ Map<String, dynamic> requestsToJoinAustinTrip = {
     "tripId": "0",
     "passengerDestination": "Santa Fe, NM",
     "message": "Hello. Can you take me to Santa Fe?",
-    "passengerContribution": 50.00,
+    "passengerContribution": 48,
     "status": "requested", // requested, confirmed, or denied
     "read": false,
   }

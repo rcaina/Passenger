@@ -87,8 +87,15 @@ class _NotificationsState extends State<Notifications> {
               children: [
                 Column(
                   children: [
-                    Text(notification["startLocation"]),
-                    Text(notification["departureDateTime"]),
+                    Text(
+                      trip["startLocation"],
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    ),
+                    Text(
+                      trip["departureDateTime"],
+                      style: TextStyle(fontSize: 16),
+                    ),
                   ],
                 ),
                 Column(
@@ -96,13 +103,21 @@ class _NotificationsState extends State<Notifications> {
                     Icon(
                       Icons.arrow_forward,
                       color: Colors.green,
+                      size: 35,
                     )
                   ],
                 ),
                 Column(
                   children: [
-                    Text(notification["destination"]),
-                    Text(notification["arrivalDateTime"]),
+                    Text(
+                      trip["destination"],
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    ),
+                    Text(
+                      trip["arrivalDateTime"],
+                      style: TextStyle(fontSize: 16),
+                    ),
                   ],
                 )
               ],

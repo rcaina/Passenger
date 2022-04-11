@@ -25,6 +25,7 @@ class _CreateDriverTripState extends State<CreateDriverTrip> {
   final departureDateTimeController = TextEditingController();
   final availableSeatsController = TextEditingController();
   final passengerCostController = TextEditingController();
+  String arrivalDate = "";
 
   final Map<String, int> carTypesMPG = {"Sedan": 30, "SUV": 26, "Truck": 22};
   String? carType;
@@ -112,10 +113,14 @@ class _CreateDriverTripState extends State<CreateDriverTrip> {
         lastDate: DateTime(2100),
         dateLabelText: label,
         onChanged: (val) => {
-          controller.text = DateFormat('M/d/yy').format(DateTime.parse(val))
+          controller.text = DateFormat('M/d/yy').format(DateTime.parse(val)),
+          arrivalDate = DateFormat('M/d/yy')
+              .format(DateTime.parse(val).add(Duration(days: 1)))
         },
         onSaved: (val) => {
-          controller.text = DateFormat('M/d/yy').format(DateTime.parse(val!))
+          controller.text = DateFormat('M/d/yy').format(DateTime.parse(val!)),
+          arrivalDate = DateFormat('M/d/yy')
+              .format(DateTime.parse(val).add(Duration(days: 1)))
         },
       ),
     );
@@ -260,7 +265,7 @@ class _CreateDriverTripState extends State<CreateDriverTrip> {
               'startLocation': startLocationController.text,
               'destination': destinationController.text,
               'departureDateTime': departureDateTimeController.text,
-              'arrivalDateTime': departureDateTimeController.text,
+              'arrivalDateTime': arrivalDate,
               'availableSeats': int.parse(availableSeatsController.text),
               'passengerCost': passengerCostController.text,
               'passengers': []

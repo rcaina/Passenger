@@ -60,7 +60,9 @@ class _RequestDetailsState extends State<RequestDetails> {
             ),
           ),
           requesterCard(request["passengerId"]),
+          Text(""),
           messageButton(),
+          Text(""),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [acceptButton(), rejectButton()],
@@ -246,12 +248,16 @@ class _RequestDetailsState extends State<RequestDetails> {
 
   Widget messageButton() {
     return ElevatedButton(
-        onPressed: () {
-          String phoneNumber = globals.users[request["passengerId"]]["phone"];
-          print(phoneNumber);
-          _launchMessages(phoneNumber);
-        },
-        child: Text("Message"));
+      onPressed: () {
+        String phoneNumber = globals.users[request["passengerId"]]["phone"];
+        print(phoneNumber);
+        _launchMessages(phoneNumber);
+      },
+      child: Text("Message"),
+      style: ElevatedButton.styleFrom(
+        minimumSize: Size(140, 45),
+      ),
+    );
   }
 
   Widget acceptButton() {
@@ -293,8 +299,9 @@ class _RequestDetailsState extends State<RequestDetails> {
         },
         child: Text("Accept"),
         style: ElevatedButton.styleFrom(
-            primary: Colors.white,
-            onPrimary: Colors.green,
+            minimumSize: Size(140, 45),
+            primary: Colors.green,
+            onPrimary: Colors.white,
             side: BorderSide(width: 1.0, color: Colors.green)));
   }
 
@@ -333,8 +340,9 @@ class _RequestDetailsState extends State<RequestDetails> {
         },
         child: Text("Reject"),
         style: ElevatedButton.styleFrom(
-            primary: Colors.white,
-            onPrimary: Colors.red,
+            minimumSize: Size(140, 45),
+            primary: Colors.red,
+            onPrimary: Colors.white,
             side: BorderSide(width: 1.0, color: Colors.red)));
   }
 

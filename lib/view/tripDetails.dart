@@ -70,11 +70,14 @@ class _TripDetailsState extends State<TripDetails> {
                 child: locations(trip["startLocation"], trip["destination"]),
               ),
               inputText("Driver", globals.users[trip["driverUserId"]]["name"]),
-              inputText("Departure Date", trip["departureDateTime"]),
-              inputText("Arrival Date", trip["arrivalDateTime"]),
+              //inputText("Departure Date", trip["departureDateTime"]),
+              //inputText("Arrival Date", trip["arrivalDateTime"]),
               inputText("Seats Available", '${trip["availableSeats"]}'),
               inputText("Passenger Cost", '${trip["passengerCost"]}'),
               listPassengers("Passengers", trip["passengers"]),
+              Text(""),
+              Text("Route:", style: TextStyle(fontSize: 18)),
+              Text(""),
               MapWidget(trip),
               requestButton(),
               updateButton()
@@ -117,35 +120,73 @@ class _TripDetailsState extends State<TripDetails> {
 
   Widget locations(String start, String destination) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.fromLTRB(0, 15, 0, 30),
-          child: Text(
-            start,
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 20,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Column(
+          children: [
+            Text(
+              trip["startLocation"],
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
-          ),
+            Text(
+              trip["departureDateTime"],
+              style: TextStyle(fontSize: 16),
+            ),
+          ],
         ),
-        Container(
-          padding: EdgeInsets.fromLTRB(10, 15, 0, 30),
-          child: Icon(
-            Icons.arrow_right_alt_sharp,
-            color: Colors.blue.shade400,
-            size: 35,
-          ),
+        Column(
+          children: [
+            Icon(
+              Icons.arrow_forward,
+              color: Colors.green,
+              size: 35,
+            )
+          ],
         ),
-        Container(
-          padding: EdgeInsets.fromLTRB(15, 15, 0, 30),
-          child: Text(
-            destination,
-            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
-          ),
-        ),
+        Column(
+          children: [
+            Text(
+              trip["destination"],
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            ),
+            Text(
+              trip["arrivalDateTime"],
+              style: TextStyle(fontSize: 16),
+            ),
+          ],
+        )
       ],
     );
+    // return Row(
+    //   mainAxisAlignment: MainAxisAlignment.center,
+    //   children: <Widget>[
+    //     Container(
+    //       padding: EdgeInsets.fromLTRB(0, 15, 0, 30),
+    //       child: Text(
+    //         start,
+    //         style: TextStyle(
+    //           fontWeight: FontWeight.w700,
+    //           fontSize: 20,
+    //         ),
+    //       ),
+    //     ),
+    //     Container(
+    //       padding: EdgeInsets.fromLTRB(10, 15, 0, 30),
+    //       child: Icon(
+    //         Icons.arrow_right_alt_sharp,
+    //         color: Colors.blue.shade400,
+    //         size: 35,
+    //       ),
+    //     ),
+    //     Container(
+    //       padding: EdgeInsets.fromLTRB(15, 15, 0, 30),
+    //       child: Text(
+    //         destination,
+    //         style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+    //       ),
+    //     ),
+    //   ],
+    // );
   }
 
   Widget inputText(label, info) {
@@ -182,30 +223,35 @@ class _TripDetailsState extends State<TripDetails> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text("Passengers:", style: TextStyle(fontSize: 18)),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: ClampingScrollPhysics(),
-              padding: const EdgeInsets.only(left: 20),
-              itemCount: passengerList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return RichText(
-                  text: TextSpan(
-                    text:
-                        '- ${globals.users[passengerList[index]["userId"]]["name"]} (${passengerList[index]["destination"]!})',
-                    style: TextStyle(color: Colors.blue, fontSize: 16),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Profile(
-                                  userId: passengerList[index]["userId"])),
-                        );
-                      },
-                  ),
-                );
-              },
-            ),
+            passengerList.isNotEmpty
+                ? ListView.builder(
+                    shrinkWrap: true,
+                    physics: ClampingScrollPhysics(),
+                    padding: const EdgeInsets.only(left: 20),
+                    itemCount: passengerList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return RichText(
+                        text: TextSpan(
+                          text:
+                              '- ${globals.users[passengerList[index]["userId"]]["name"]} (${passengerList[index]["destination"]!})',
+                          style: TextStyle(color: Colors.blue, fontSize: 16),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Profile(
+                                        userId: passengerList[index]
+                                            ["userId"])),
+                              );
+                            },
+                        ),
+                      );
+                    },
+                  )
+                : Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Text("(None)")),
           ],
         ));
   }
